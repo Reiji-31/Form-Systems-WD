@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manila Zoo Feedback System</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="LTFS_style.css">
+  <script src="LTFS_script.js" defer></script>
+</head>
+<body>
+
+<!-- FLOATING CONTROLS -->
+<div class="controls">
+    <!-- Text Scaling -->
+    <div class="control-group">
+        <div class="text-size-control" title="Adjust text size">
+          <span style="font-weight: bold; margin-right: 5px;">Text Size:</span>
+          <button type="button" id="size-down" aria-label="Decrease text size">A−</button>
+          <button type="button" id="size-up"   aria-label="Increase text size">A+</button>
+        </div>
+    </div>
+</div>
+
+<header>
+  <div class="logo">🦁</div>
+  <div>
+    <h1>Manila Zoo</h1>
+    <span data-key="header_sub">Visitor Feedback</span>
+  </div>
+  <div class="header-controls">
+    <button type="button" id="lang-toggle" aria-label="Switch language">
+      <span id="lang-icon">🇺🇸</span>
+      <span id="lang-label">English</span>
+    </button>
+  <button id="view-results-btn" data-key="view_results">View Results</button>
+  </div>
+</header>
+ 
+<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+<div class="step-counter" id="step-counter"></div>
+ 
+<form class="wrapper" id="survey-form" onsubmit="return false;">
+ 
+  <!-- ══════════ START ══════════ -->
+  <div class="page page-start active" data-page="start">
+    <div class="carousel-wrap">
+      <div class="carousel-track" id="carousel-track">
+        <div class="carousel-slide"><img src="res/png1.jpg" alt="Manila Zoo photo 1"></div>
+        <div class="carousel-slide"><img src="res/png2.jpg" alt="Manila Zoo photo 2"></div>
+        <div class="carousel-slide"><img src="res/png3.jpg" alt="Manila Zoo photo 3"></div>
+        <div class="carousel-slide"><img src="res/png4.jpg" alt="Manila Zoo photo 4"></div>
+        <div class="carousel-slide"><img src="res/png5.jpg" alt="Manila Zoo photo 5"></div>
+      </div>
+    </div>
+    <div class="carousel-dots" id="carousel-dots">
+      <button type="button" class="carousel-dot active" data-slide="0"></button>
+      <button type="button" class="carousel-dot" data-slide="1"></button>
+      <button type="button" class="carousel-dot" data-slide="2"></button>
+      <button type="button" class="carousel-dot" data-slide="3"></button>
+      <button type="button" class="carousel-dot" data-slide="4"></button>
+    </div>
+    <div class="card">
+      <p class="welcome-text" data-key="welcome_title">Welcome to Manila Zoo</p>
+      <p class="welcome-sub" data-key="welcome_sub">Help us improve your experience! This quick 9-step survey takes about 2 minutes to complete.</p>
+      
+      <!-- NEW CONSENT & PRIVACY SECTION -->
+      <div class="field" style="margin-top: 25px; margin-bottom: 25px; text-align: left;">
+        <label class="check-item" id="consent-container" style="align-items: flex-start;">
+          <input type="checkbox" id="consent-check" required>
+          <span data-key="consent_lbl" style="font-size: calc(13.5px * var(--font-scale)); line-height: 1.5; color: var(--text);">
+            I agree to the collection and use of my feedback for the purpose of improving Manila Zoo's services in accordance with the Data Privacy Act of 2012.
+          </span>
+        </label>
+      </div>
+
+      <!-- Changed onclick to trigger our new validation function -->
+      <button type="button" class="btn" onclick="startWithConsent()" data-key="start_btn">Start Survey →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 1: Visitor Info ══════════ -->
+  <div class="page page-step1" data-page="1">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div> <span data-key="step">Step</span> 1</div>
+      <p class="q-title" data-key="s1_title">Visitor Information</p>
+      <p class="q-subtitle" data-key="s1_sub">Tell us a little about yourself. All fields are optional.</p>
+      <div class="field-row">
+        <div class="field"><label data-key="lbl_name">Name</label><input type="text" id="v-name" placeholder="e.g. Maria" data-key-placeholder="ph_name"></div>
+        <div class="field"><label data-key="lbl_age">Age</label><input type="number" id="v-age" placeholder="e.g. 28" min="1" max="120"></div>
+      </div>
+      <div class="field">
+        <label data-key="lbl_vtype">Visitor Type</label>
+        <div class="pill-group">
+          <input type="radio" name="vtype" id="v1" value="Local"><label for="v1">🇵🇭 <span data-key="vt_local">Local</span></label>
+          <input type="radio" name="vtype" id="v2" value="Foreign Tourist"><label for="v2">✈️ <span data-key="vt_foreign">Foreign Tourist</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="lbl_visit">Visit Type</label>
+        <div class="pill-group">
+          <input type="radio" name="visit" id="vi1" value="Solo"><label for="vi1" data-key="vis_solo">Solo</label>
+          <input type="radio" name="visit" id="vi2" value="With Family"><label for="vi2" data-key="vis_family">With Family</label>
+          <input type="radio" name="visit" id="vi3" value="With Friends"><label for="vi3" data-key="vis_friends">With Friends</label>
+          <input type="radio" name="visit" id="vi4" value="School Group"><label for="vi4" data-key="vis_school">School Group</label>
+          <input type="radio" name="visit" id="vi5" value="With Partner"><label for="vi5" data-key="vis_partner">With Partner</label>
+        </div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(2)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 2: Staff & Service ══════════ -->
+  <div class="page page-step2" data-page="2">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 2</div>
+      <p class="q-title" data-key="s2_title">Staff & Service</p>
+      <p class="q-subtitle" data-key="s2_sub">Rate your experience with Manila Zoo staff.</p>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s2_help">Staff Helpfulness</div>
+        <div class="stars">
+          <input type="radio" name="help" id="h5" value="5"><label for="h5">★</label>
+          <input type="radio" name="help" id="h4" value="4"><label for="h4">★</label>
+          <input type="radio" name="help" id="h3" value="3"><label for="h3">★</label>
+          <input type="radio" name="help" id="h2" value="2"><label for="h2">★</label>
+          <input type="radio" name="help" id="h1" value="1"><label for="h1">★</label>
+        </div>
+      </div>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s2_friend">Staff Friendliness & Professionalism</div>
+        <div class="stars">
+          <input type="radio" name="friend" id="f5" value="5"><label for="f5">★</label>
+          <input type="radio" name="friend" id="f4" value="4"><label for="f4">★</label>
+          <input type="radio" name="friend" id="f3" value="3"><label for="f3">★</label>
+          <input type="radio" name="friend" id="f2" value="2"><label for="f2">★</label>
+          <input type="radio" name="friend" id="f1" value="1"><label for="f1">★</label>
+        </div>
+      </div>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s2_ticket">Ticket & Entrance Process</div>
+        <div class="stars">
+          <input type="radio" name="ticket" id="t5" value="5"><label for="t5">★</label>
+          <input type="radio" name="ticket" id="t4" value="4"><label for="t4">★</label>
+          <input type="radio" name="ticket" id="t3" value="3"><label for="t3">★</label>
+          <input type="radio" name="ticket" id="t2" value="2"><label for="t2">★</label>
+          <input type="radio" name="ticket" id="t1" value="1"><label for="t1">★</label>
+        </div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(3)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 3: Cleanliness ══════════ -->
+  <div class="page page-step3" data-page="3">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 3</div>
+      <p class="q-title" data-key="s3_title">Cleanliness & Sanitation</p>
+      <p class="q-subtitle" data-key="s3_sub">How clean and well-maintained was the zoo?</p>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s3_clean">Overall Cleanliness</div>
+        <div class="stars">
+          <input type="radio" name="clean" id="c5" value="5"><label for="c5">★</label>
+          <input type="radio" name="clean" id="c4" value="4"><label for="c4">★</label>
+          <input type="radio" name="clean" id="c3" value="3"><label for="c3">★</label>
+          <input type="radio" name="clean" id="c2" value="2"><label for="c2">★</label>
+          <input type="radio" name="clean" id="c1" value="1"><label for="c1">★</label>
+        </div>
+      </div>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s3_rest">Restroom Condition</div>
+        <div class="stars">
+          <input type="radio" name="rest" id="r5" value="5"><label for="r5">★</label>
+          <input type="radio" name="rest" id="r4" value="4"><label for="r4">★</label>
+          <input type="radio" name="rest" id="r3" value="3"><label for="r3">★</label>
+          <input type="radio" name="rest" id="r2" value="2"><label for="r2">★</label>
+          <input type="radio" name="rest" id="r1" value="1"><label for="r1">★</label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s3_concerns">Any specific cleanliness concerns?</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" name="clean_concern" value="Litter on pathways"><div class="check-box"></div><span data-key="cc1">Litter on pathways</span></label>
+          <label class="check-item"><input type="checkbox" name="clean_concern" value="Poor waste bin placement"><div class="check-box"></div><span data-key="cc2">Poor waste bin placement</span></label>
+          <label class="check-item"><input type="checkbox" name="clean_concern" value="Unpleasant odors"><div class="check-box"></div><span data-key="cc3">Unpleasant odors</span></label>
+          <label class="check-item"><input type="checkbox" name="clean_concern" value="No concerns"><div class="check-box"></div><span data-key="cc4">No concerns — it was clean!</span></label>
+        </div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(4)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 4: Infrastructure ══════════ -->
+  <div class="page page-step4" data-page="4">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 4</div>
+      <p class="q-title" data-key="s4_title">Facilities & Infrastructure</p>
+      <p class="q-subtitle" data-key="s4_sub">Rate the zoo's physical amenities and structures.</p>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s4_path">Pathways & Walkways</div>
+        <div class="stars">
+          <input type="radio" name="path" id="p5" value="5"><label for="p5">★</label>
+          <input type="radio" name="path" id="p4" value="4"><label for="p4">★</label>
+          <input type="radio" name="path" id="p3" value="3"><label for="p3">★</label>
+          <input type="radio" name="path" id="p2" value="2"><label for="p2">★</label>
+          <input type="radio" name="path" id="p1" value="1"><label for="p1">★</label>
+        </div>
+      </div>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s4_seat">Rest Areas & Seating</div>
+        <div class="stars">
+          <input type="radio" name="seat" id="se5" value="5"><label for="se5">★</label>
+          <input type="radio" name="seat" id="se4" value="4"><label for="se4">★</label>
+          <input type="radio" name="seat" id="se3" value="3"><label for="se3">★</label>
+          <input type="radio" name="seat" id="se2" value="2"><label for="se2">★</label>
+          <input type="radio" name="seat" id="se1" value="1"><label for="se1">★</label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s4_improve">Which facilities need improvement?</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" name="facility" value="Food stalls / canteen"><div class="check-box"></div><span data-key="fc1">Food stalls / canteen</span></label>
+          <label class="check-item"><input type="checkbox" name="facility" value="Parking area"><div class="check-box"></div><span data-key="fc2">Parking area</span></label>
+          <label class="check-item"><input type="checkbox" name="facility" value="Signage & maps"><div class="check-box"></div><span data-key="fc3">Signage &amp; maps</span>></label>
+          <label class="check-item"><input type="checkbox" name="facility" value="Shade & shelter"><div class="check-box"></div><span data-key="fc4">Shade &amp; shelter</span></label>
+        </div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(5)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 5: Animal Habitats ══════════ -->
+  <div class="page page-step5" data-page="5">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 5</div>
+      <p class="q-title" data-key="s5_title">Animal Habitats & Welfare</p>
+      <p class="q-subtitle" data-key="s5_sub">How do you feel about the conditions for the animals?</p>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s5_enc">Enclosure Space & Quality</div>
+        <div class="stars">
+          <input type="radio" name="enc" id="e5" value="5"><label for="e5">★</label>
+          <input type="radio" name="enc" id="e4" value="4"><label for="e4">★</label>
+          <input type="radio" name="enc" id="e3" value="3"><label for="e3">★</label>
+          <input type="radio" name="enc" id="e2" value="2"><label for="e2">★</label>
+          <input type="radio" name="enc" id="e1" value="1"><label for="e1">★</label>
+        </div>
+      </div>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s5_view">Animal Visibility & Viewing Experience</div>
+        <div class="stars">
+          <input type="radio" name="view" id="vw5" value="5"><label for="vw5">★</label>
+          <input type="radio" name="view" id="vw4" value="4"><label for="vw4">★</label>
+          <input type="radio" name="view" id="vw3" value="3"><label for="vw3">★</label>
+          <input type="radio" name="view" id="vw2" value="2"><label for="vw2">★</label>
+          <input type="radio" name="view" id="vw1" value="1"><label for="vw1">★</label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s5_welfare">Overall animal welfare impression</label>
+        <div class="pill-group">
+          <input type="radio" name="welfare" id="w1" value="Well cared for"><label for="w1" data-key="wf1">😊 Well cared for</label>
+          <input type="radio" name="welfare" id="w2" value="Adequate"><label for="w2" data-key="wf2">😐 Adequate</label>
+          <input type="radio" name="welfare" id="w3" value="Needs improvement"><label for="w3" data-key="wf3">😟 Needs improvement</label>
+        </div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(6)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 6: Accessibility ══════════ -->
+  <div class="page page-step6" data-page="6">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 6</div>
+      <p class="q-title" data-key="s6_title">Accessibility & Inclusivity</p>
+      <p class="q-subtitle" data-key="s6_sub">Is Manila Zoo welcoming to everyone?</p>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s6_nav"> Ease of Navigation</div>
+        <div class="stars">
+          <input type="radio" name="nav" id="n5" value="5"><label for="n5">★</label>
+          <input type="radio" name="nav" id="n4" value="4"><label for="n4">★</label>
+          <input type="radio" name="nav" id="n3" value="3"><label for="n3">★</label>
+          <input type="radio" name="nav" id="n2" value="2"><label for="n2">★</label>
+          <input type="radio" name="nav" id="n1" value="1"><label for="n1">★</label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s6_avail">Were the following available and accessible?</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" name="access" value="Ramps for wheelchairs / strollers"><div class="check-box"></div><span data-key="ac1">Ramps for wheelchairs / strollers</span></label>
+          <label class="check-item"><input type="checkbox" name="access" value="Clear directional signage"><div class="check-box"></div><span data-key="ac2">Clear directional signage</span></label>
+          <label class="check-item"><input type="checkbox" name="access" value="Multilingual information"><div class="check-box"></div><span data-key="ac3">Multilingual information</span></label>
+          <label class="check-item"><input type="checkbox" name="access" value="Senior-friendly seating"><div class="check-box"></div><span data-key="ac4">Senior-friendly seating</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s6_with">Did you visit with any of the following?</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" name="visitwith" value="Young children (under 6)"><div class="check-box"></div><span data-key="vw1">Young children (under 6)</span></label>
+          <label class="check-item"><input type="checkbox" name="visitwith" value="Elderly family member"><div class="check-box"></div><span data-key="vw2">Elderly family member</span></label>
+          <label class="check-item"><input type="checkbox" name="visitwith" value="Person with disability"><div class="check-box"></div><span data-key="vw3">Person with disability</span></label>
+          <label class="check-item"><input type="checkbox" name="visitwith" value="None of the above"><div class="check-box"></div><span data-key="vw4">None of the above</span></label>
+        </div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(7)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 7: Education ══════════ -->
+  <div class="page page-step7" data-page="7">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 7</div>
+      <p class="q-title" data-key="s7_title">Education & Conservation</p>
+      <p class="q-subtitle" data-key="s7_sub">How well does Manila Zoo inform and engage visitors?</p>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s7_info">Quality of Animal Information Boards</div>
+        <div class="stars">
+          <input type="radio" name="info" id="i5" value="5"><label for="i5">★</label>
+          <input type="radio" name="info" id="i4" value="4"><label for="i4">★</label>
+          <input type="radio" name="info" id="i3" value="3"><label for="i3">★</label>
+          <input type="radio" name="info" id="i2" value="2"><label for="i2">★</label>
+          <input type="radio" name="info" id="i1" value="1"><label for="i1">★</label>
+        </div>
+      </div>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s7_edu">Educational Programs & Activities</div>
+        <div class="stars">
+          <input type="radio" name="edu" id="ed5" value="5"><label for="ed5">★</label>
+          <input type="radio" name="edu" id="ed4" value="4"><label for="ed4">★</label>
+          <input type="radio" name="edu" id="ed3" value="3"><label for="ed3">★</label>
+          <input type="radio" name="edu" id="ed2" value="2"><label for="ed2">★</label>
+          <input type="radio" name="edu" id="ed1" value="1"><label for="ed1">★</label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s7_aware">Did the visit increase your awareness of wildlife conservation?</label>
+        <div class="pill-group">
+          <input type="radio" name="aware" id="a1" value="Yes, definitely"><label for="a1" data-key="aw1">Yes, definitely</label>
+          <input type="radio" name="aware" id="a2" value="Somewhat"><label for="a2" data-key="aw2">Somewhat</label>
+          <input type="radio" name="aware" id="a3" value="Not really"><label for="a3" data-key="aw3">Not really</label>
+        </div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(8)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 8: Pricing ══════════ -->
+  <div class="page page-step8" data-page="8">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 8</div>
+      <p class="q-title" data-key="s8_title">Pricing & Value</p>
+      <p class="q-subtitle" data-key="s8_sub">Was your visit worth the cost?</p>
+      <div class="star-group">
+        <div class="star-group-label" data-key="s8_price">Admission Price — Value for Money</div>
+        <div class="stars">
+          <input type="radio" name="price" id="pr5" value="5"><label for="pr5">★</label>
+          <input type="radio" name="price" id="pr4" value="4"><label for="pr4">★</label>
+          <input type="radio" name="price" id="pr3" value="3"><label for="pr3">★</label>
+          <input type="radio" name="price" id="pr2" value="2"><label for="pr2">★</label>
+          <input type="radio" name="price" id="pr1" value="1"><label for="pr1">★</label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s8_food">How do you find the food & souvenir prices?</label>
+        <div class="pill-group">
+          <input type="radio" name="food_price" id="fp1" value="Very affordable"><label for="fp1" data-key="fp1">Very affordable</label>
+          <input type="radio" name="food_price" id="fp2" value="Reasonable"><label for="fp2" data-key="fp2">Reasonable</label>
+          <input type="radio" name="food_price" id="fp3" value="Expensive"><label for="fp3" data-key="fp3">Expensive</label>
+          <input type="radio" name="food_price" id="fp4" value="Didn't purchase"><label for="fp4" data-key="fp4">Didn't purchase</label>
+        </div>
+      </div>
+      <div class="field">
+        <label data-key="s8_nps">How likely are you to recommend Manila Zoo?</label>
+        <div class="scale-row">
+          <input type="radio" name="nps" id="nps1" value="1"><label for="nps1">1</label>
+          <input type="radio" name="nps" id="nps2" value="2"><label for="nps2">2</label>
+          <input type="radio" name="nps" id="nps3" value="3"><label for="nps3">3</label>
+          <input type="radio" name="nps" id="nps4" value="4"><label for="nps4">4</label>
+          <input type="radio" name="nps" id="nps5" value="5"><label for="nps5">5</label>
+          <input type="radio" name="nps" id="nps6" value="6"><label for="nps6">6</label>
+          <input type="radio" name="nps" id="nps7" value="7"><label for="nps7">7</label>
+          <input type="radio" name="nps" id="nps8" value="8"><label for="nps8">8</label>
+          <input type="radio" name="nps" id="nps9" value="9"><label for="nps9">9</label>
+          <input type="radio" name="nps" id="nps10" value="10"><label for="nps10">10</label>
+        </div>
+        <div class="scale-ends"><span data-key="nps_low">Not at all likely</span><span data-key="nps_high">Extremely likely</span></div>
+      </div>
+      <button type="button" class="btn" onclick="goToStep(9)" data-key="next_btn">Next →</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ STEP 9: Comments ══════════ -->
+  <div class="page page-step9" data-page="9">
+    <div class="card">
+      <div class="q-label"><div class="dot"></div><span data-key="step">Step</span> 9</div>
+      <p class="q-title" data-key="s9_title">Final Comments</p>
+      <p class="q-subtitle" data-key="s9_sub">Any additional thoughts, suggestions, or highlights from your visit?</p>
+      <div class="field">
+        <label data-key="s9_lbl">Your feedback</label>
+        <textarea id="v-comment" data-key-placeholder="ph_comment" placeholder="Tell us what you loved, what could be better, or anything else on your mind…"></textarea>
+      </div>
+      <div class="field">
+        <label data-key="s9_again">Would you visit again?</label>
+        <div class="pill-group">
+          <input type="radio" name="again" id="ag1" value="Yes, definitely!"><label for="ag1" data-key="ag1">Yes, definitely!</label>
+          <input type="radio" name="again" id="ag2" value="Maybe"><label for="ag2" data-key="ag2">Maybe</label>
+          <input type="radio" name="again" id="ag3" value="Probably not"><label for="ag3" data-key="ag3">Probably not</label>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <button type="button" class="btn btn-submit" onclick="confirm('Are you sure you want to submit this form?') && submitSurvey()" data-key="submit_btn">Submit Feedback ✓</button>
+    </div>
+  </div>
+ 
+  <!-- ══════════ THANK YOU ══════════ -->
+  <div class="page page-done" data-page="done">
+    <div class="card thank-card">
+      <div class="thank-icon">🌿</div>
+      <p class="q-title" data-key="ty_title">Salamat!</p>
+      <p class="q-subtitle" data-key="ty_sub">Thank you for helping Manila Zoo grow and improve. Your feedback is truly valued.</p>
+      <br>
+
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button type="button" class="btn btn-submit" style="flex: 1; min-width: 160px;" onclick="showResults()" data-key="view_results_btn">View Results</button>
+        <button type="button" class="btn" style="flex: 1; min-width: 160px; background: var(--green);" onclick="answerAgain()" data-key="answer_again_btn">Answer Again</button>
+      </div>
+      
+    </div>
+  </div>
+ 
+  <!-- ══════════ RESULTS ══════════ -->
+  <div class="page page-results" data-page="results">
+    <!-- Results rendered by JS -->
+  </div>
+ 
+</form><!-- /wrapper -->
+
+</body>
+</html>

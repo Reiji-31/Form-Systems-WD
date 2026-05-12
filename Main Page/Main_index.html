@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Form Selection</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="Main_style.css">
+    </head>
+    <body>
+
+        <div class="container">
+
+            <!-- HEADER -->
+            <div class="header">
+                <h1 class="header-title">Form Selection</h1>
+                <p class="header-sub">Please select a form you'd like to fill out below</p> 
+            </div>
+
+            <!-- CARD CONTAINER -->
+            <div class="card-container">
+
+                <!-- CARD 1: BARANGAY HEALTH FORM CARD -->
+                <div id="barangayHealthForm_card" class="card" onclick="goHealthForm()">
+                    <div class="card-accent teal"></div>
+                    <div class="card-body">
+                        <div class="card-badge teal">
+                            <span class="badge-dot teal"></span>
+                            Health Monitoring
+                        </div>
+                        <h2 class="card-title">Barangay Health Monitoring Form</h2>
+                        <p class="card-location">Zone 63-64, Santa Mesa, Manila</p>
+                        <div class="card-divider"></div>
+                        <p class="card-desc">
+                            This is a simple form for monitoring health conditions in the barangay. The form
+                            aims to collect data on the health status of residents, identify potential health risks,
+                            and provide a platform for residents to report any health concerns. 
+                            The form includes fields for person al information, health symptoms, and vaccination status. 
+                            It is designed to help local health authorities track and manage health issues within the community effectively.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn">
+                            Select
+                            <span class="btn-arrow"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD 2: MANILA ZOO FORM CARD-->
+                 <div id="manilaZooForm_card" class="card" onclick="goFeedbackForm()">
+                    <div class="card-accent blue"></div>
+                    <div class="card-body">
+                        <div class="card-badge blue">
+                            <span class="badge-dot blue"></span>
+                            Visitor Feedback
+                        </div>
+                        <h2 class="card-title">Manila Zoo Feedback Form</h2>
+                        <p class="card-location">Manila Zoo, Malate, Manila</p>
+                        <div class="card-divider"></div>
+                        <p class="card-desc">
+                            This feedback form is designed to gather insights and opinions from visitors of the Manila Zoo. 
+                        It includes questions about the overall experience, the condition of the animals, the cleanliness of the facilities, 
+                        and the quality of customer service. The form also provides an opportunity for visitors to suggest improvements or 
+                        share any concerns they may have. Your feedback is crucial in helping us enhance the zoo experience for all visitors 
+                        and ensure the well-being of our animals.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="card-btn">
+                            Select
+                            <span class="btn-arrow"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            function goHealthForm() {
+                window.location.href = "../Barangay Health Monitoring Page/BHMS_index.html";
+            }
+
+
+            function goFeedbackForm() {
+                window.location.href = "../Manila Zoo Feedback Page/LTFS_index.html";
+            }
+
+        </script>
+    </body>

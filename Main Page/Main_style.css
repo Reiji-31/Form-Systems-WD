@@ -1,0 +1,211 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* --- Predefined Colors --- */
+:root {
+    --teal-50: #E1F5EE;
+    --teal-100: #9FE1CB;
+    --teal-400: #1D9E75;
+    --teal-600: #0F6E56;
+    --green-50:  #c3f8db;
+    --green-100: #76d09a;
+    --green-400: #00761e;
+    --green-600: #227d35;
+    --gray-50:  #F7F6F3;
+    --gray-100: #EDEBE6;
+    --gray-200: #D3D1C7;
+    --gray-400: #888780;
+    --gray-700: #4A4A47;
+    --gray-900: #1C1C1A;
+    --white:    #ffffff;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+}
+
+/* --- HEADER --- */
+.header {
+    background: var(--white);
+    border-bottom: 2px solid var(--gray-100);
+    text-align: center;
+    padding: 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--teal-400);
+    border-radius: 99px;
+}
+
+.header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(30px, 5vw, 44px);
+    font-weight: 400;
+    color: var(--gray-900);
+    line-height: 1.12;
+    margin-bottom: 0.65rem;
+}
+
+.header-sub {
+    font-size: 14px;
+    color: var(--gray-400);
+    font-weight: 300;
+}
+
+/* --- CARD CONTAINER --- */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+/* --- CARDS --- */
+.card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2 ease;
+    animation: fadeUp 0.45s ease both;
+    cursor: pointer;
+}
+
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.12s }
+
+.card:hover {
+    border-color: var(--gray-200);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+}
+
+@keeyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-accent {
+    height: 4px;
+    flex-shrink: 0;
+}
+
+.card-accent.teal { background: var(--teal-400); }
+.card-accent.blue { background: var(--green-400); }
+
+.card-body {
+    padding: 1.6rem 1.6rem 1rem;
+    flex: 1;
+}
+
+.card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 99px;
+    margin-bottom: 1rem;
+}
+
+.card-badge.teal {
+    background: var(--teal-50);
+    color: var(--teal-600);
+    border: 1px solid var(--teal-100);
+}
+
+.card-badge.blue {
+    background: var(--green-50);
+    color: var(--green-600);
+    border: 1px solid var(--green-100);
+}
+
+.badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+}
+.badge-dot.teal { background: var(--teal-400); }
+.badge-dot.blue { background: var(--green-400); }
+
+.card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--gray-900);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+    .card-location {
+      font-size: 12px;
+      color: var(--gray-400);
+      font-weight: 300;
+      margin-bottom: 1.1rem;
+    }
+    .card-divider {
+      height: 1px;
+      background: var(--gray-100);
+      margin-bottom: 1.1rem;
+    }
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--gray-700);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+ 
+    .card-footer {
+      padding: 1rem 1.6rem 1.4rem;
+    }
+ 
+    .card-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.65rem 1rem;
+      background: transparent;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-900);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .card-btn:hover {
+      background: var(--gray-50);
+      border-color: var(--gray-400);
+    }
+    .card-btn:active { transform: scale(0.99); }
+    .btn-arrow {
+      font-size: 15px;
+      color: var(--gray-400);
+      transition: transform 0.15s;
+    }
+    .card-btn:hover .btn-arrow {
+      transform: translateX(3px);
+    }

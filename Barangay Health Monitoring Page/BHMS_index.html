@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Health Monitoring Form</title>
+    <link rel="stylesheet" href="BHMS_style.css">
+    <script src="BHMS_script.js" defer></script>
+</head>
+
+<body>
+
+<!-- FLOATING CONTROLS -->
+<div class="controls" id="floatingControls">
+    <!-- Toggle Controls -->
+    <div class="controls-header" onclick="toggleControls()">
+        <span style="font-weight: bold; font-size: 14px; color: #333;">⚙️ Settings</span>
+        <span id="toggleIcon" style="font-weight: bold; cursor: pointer; font-size: 18px; line-height: 1;">&minus;</span>
+    </div>
+
+    <div class="controls-content" id="controlsContent">
+        <!-- Text Scaling -->
+        <div class="control-group">
+            <span style="font-weight: bold; margin-right: 5px;">Text Size:</span>
+            <button type="button" onclick="changeTextSize(-1)">A-</button>
+            <button type="button" onclick="changeTextSize(1)">A+</button>
+        </div>
+        <!-- Language Selector -->
+        <div class="control-group">
+            <span style="font-weight: bold; margin-right: 5px;">Language / Wika:</span>
+            <select name="language" id="langToggle">
+                <option value="en" selected>English</option>
+                <option value="fil">Filipino</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+    <div class="title">Zone 63-64 Barangays Sta. Mesa, Manila</div>
+    <div class="subtitle">Health Monitoring System</div>
+</header>
+
+<!-- PROGRESS NAVIGATION -->
+<nav class="progress-wrapper" id="main-nav">
+    <div class="progress-nav">
+        <a href="#" class="step" onclick="goToStep(0); return false;" data-i18n="nav_consent">Consent</a>
+        <a href="#" class="step" onclick="goToStep(1); return false;" data-i18n="nav_profile">Profile</a>
+        <a href="#" class="step" onclick="goToStep(2); return false;" data-i18n="nav_vax">Vaccination</a>
+        <a href="#" class="step" onclick="goToStep(3); return false;" data-i18n="nav_symptoms">Symptoms</a>
+        <a href="#" class="step" onclick="goToStep(4); return false;" data-i18n="nav_conditions">Conditions</a>
+        <a href="#" class="step" onclick="goToStep(5); return false;" data-i18n="nav_other">Other</a>
+        <a href="#" class="step" onclick="goToStep(6); return false;" data-i18n="nav_mental">Mental Health</a>
+        <a href="#" class="step" onclick="goToStep(7); return false;" data-i18n="nav_submit">Submit</a>
+    </div>
+</nav>
+
+<form id="healthForm" enctype="multipart/form-data">
+  
+  <!-- CONSENT & PRIVACY -->
+  <section class="card active" id="consent-card">
+      <div class="card-header" data-i18n="consent_header">Consent &amp; Privacy</div>
+      <div class="card-body">
+          <p data-i18n="consent_text">This health monitoring form collects personal and medical information strictly for barangay health purposes. Your data will be kept confidential and used only by authorized Barangay Zone 63–64 health workers. By proceeding, you agree to the collection and use of this information in accordance with the Data Privacy Act of 2012 (Republic Act No. 10173).</p>
+          <label>
+              <input id="consent_btn" type="checkbox" name="consent" required> 
+              <span data-i18n="consent_check">I have read and understood the privacy notice, and I give my consent to collect and process my health information.</span>
+          </label><br><br>
+          
+          <div class="step-nav"><button type="button" onclick="nextStep()" data-i18n="btn_next">Next</button></div>
+      </div>
+  </section>
+
+  <!-- STEP 1: RESIDENT PROFILE -->
+  <section class="card" id="info-card">
+      <div class="card-header" data-i18n="s1_header">Step 1: Resident Profile</div>
+      <div class="card-body">
+          <label><span data-i18n="lbl_form_for">Who is this form for?</span><span class="required">*</span></label><br>
+          <select name="form_for" required>
+              <option value="" disabled selected>-- Select Person --</option>
+              <option value="Myself" data-i18n="opt_myself">For myself</option>
+              <option value="Someone Else" data-i18n="opt_someone">For someone else</option>
+          </select><br><br>
+          
+          <label data-i18n="lbl_rel">If for someone else, specify relationship</label><br>
+          <select name="relationship">
+              <option value="" disabled selected>-- Select Relationship --</option>
+              <option value="Guardian" data-i18n="opt_guardian">Guardian</option>
+              <option value="Parent" data-i18n="opt_parent">Parent</option>
+              <option value="Child" data-i18n="opt_child">Child</option>
+              <option value="Sibling" data-i18n="opt_sibling">Sibling</option>
+              <option value="Spouse" data-i18n="opt_spouse">Spouse</option>
+              <option value="Relative" data-i18n="opt_relative">Relative</option>
+              <option value="Other" data-i18n="opt_others">Other</option>
+          </select><br><br>
+
+          <label><span data-i18n="lbl_rname">Name of the Respondent (If for someone else)</span></label><br>
+          <input type="text" name="respondent_name" placeholder="Name of respondent" data-i18n="r_name"><br><br>
+
+          <label><span data-i18n="lbl_name">Full Name</span> <span class="required">*</span></label><br>
+          <input type="text" name="full_name" placeholder="Enter full name" data-i18n="ph_name" required><br><br>
+
+          <label><span data-i18n="lbl_age">Age</span> <span class="required">*</span></label><br>
+          <input type="number" name="age" placeholder="Enter age" data-i18n="ph_age" min="1" max="120" required><br><br>
+
+          <label><span data-i18n="lbl_sex">Sex</span> <span class="required">*</span></label><br>
+          <select name="sex" required>
+              <option value="" disabled selected>-- Select Sex --</option>
+              <option value="Male" data-i18n="opt_male">Male</option>
+              <option value="Female" data-i18n="opt_female">Female</option>
+          </select><br><br>
+
+          <label><span data-i18n="lbl_addr">Address</span> <span class="required">*</span></label><br>
+          <input type="text" name="address" placeholder="Enter address" data-i18n="ph_addr" required><br><br>
+
+          <label><span data-i18n="lbl_contact">Contact Number</span> <span class="required">*</span></label><br>
+          <input type="tel" name="contact_number" maxlength="11" placeholder="Enter contact number" data-i18n="ph_contact" required><br><br>
+
+          <label><span data-i18n="lbl_civil">Civil Status</span><span class="required">*</span></label><br>
+          <select name="civil_status" required>
+              <option value="" disabled selected>-- Select Civil Status --</option>
+              <option value="Single" data-i18n="opt_single">Single</option>
+              <option value="Married" data-i18n="opt_married">Married</option>
+              <option value="Widowed" data-i18n="opt_widowed">Widowed</option>
+              <option value="Separated" data-i18n="opt_separated">Separated</option>
+          </select><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="nextStep()" data-i18n="btn_next">Next</button>
+          </div>
+      </div>
+  </section>
+
+  <!-- STEP 2: VACCINATION RECORDS -->
+  <section class="card" id="vaccination-card">
+      <div class="card-header" data-i18n="s2_header">Step 2: Vaccination Records</div>
+      <div class="card-body">
+          <label><span data-i18n="lbl_covid">COVID-19 Vaccination Status</span> <span class="required">*</span></label><br>
+          <select name="covid_vax_status" required>
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Vaccinated" data-i18n="opt_vax">Vaccinated</option>
+              <option value="Unvaccinated" data-i18n="opt_unvax">Unvaccinated</option>
+          </select><br><br>
+
+          <label><span data-i18n="lbl_annual_vax">Received annual vaccines in the last 12 months? (Select all that apply)</span> <span class="required">*</span></label><br>
+          <label><input type="checkbox" name="annual_vax" value="flu"> <span data-i18n="opt_flu">Flu (Influenza)</span></label>
+          <label><input type="checkbox" name="annual_vax" value="pneumonia"> <span data-i18n="opt_pneumonia">Pneumonia</span></label>
+          <label><input type="checkbox" name="annual_vax" value="none"> <span data-i18n="opt_none">None</span></label>
+          <label><input type="checkbox" name="annual_vax" value="other"> <span data-i18n="opt_others">Other</span></label><br>
+          <input type="text" name="symptoms_other_details" placeholder="If others, please specify" data-i18n="ph_others">
+          <br><br>
+          
+
+          <label><span data-i18n="lbl_vaxcard">Physical VaxCard or VaxCert available?</span><span class="required">*</span></label><br>
+          <select name="vaxcard_available" required>
+            <option value="" disabled selected>-- Select Document --</option>
+            <option value="VaxCard" data-i18n="opt_vaxcard">VaxCard</option>
+            <option value="VaxCert" data-i18n="opt_vaxcert">VaxCert</option>
+            <option value="None" data-i18n="opt_none">None</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_upload_vax">Upload VaxCard / VaxCert (if available)</label><br>
+          <input type="file" name="vax_document" accept=".pdf,.jpg,.jpeg,.png"><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="nextStep()" data-i18n="btn_next">Next</button>
+          </div>
+      </div>
+  </section>
+
+  <!-- STEP 3: COMMON HEALTH SYMPTOMS -->
+  <section class="card" id="symptoms-card">
+      <div class="card-header" data-i18n="s3_header">Step 3: Common Health Symptoms</div>
+      <div class="card-body">
+          <label><span data-i18n="lbl_symptoms">In the past 14 days, have you experienced any of these symptoms? (Select all that apply)</span> <span class="required">*</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Fever"> <span data-i18n="opt_fever">Fever / Flu</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Cough"> <span data-i18n="opt_cough">Cough</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Loss Smell Taste"> <span data-i18n="opt_loss_smell">Loss of Smell or Taste</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Fatigue"> <span data-i18n="opt_fatigue">Fatigue</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Headache"> <span data-i18n="opt_headache">Severe Headache</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="COVID-like"> <span data-i18n="opt_covid_like">COVID-like Symptoms</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Rashes"> <span data-i18n="opt_rashes">Rashes</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Diarrhea"> <span data-i18n="opt_diarrhea">Diarrhea</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="none"> <span data-i18n="opt_none">None</span></label><br>
+          <label><input type="checkbox" name="symptoms" value="Others"> <span data-i18n="opt_others">Others</span></label><br>
+          <input type="text" name="symptoms_other_details" placeholder="If others, please specify" data-i18n="ph_others"><br><br>
+
+          <label data-i18n="lbl_duration">If checked, how long have these symptoms been present?</label><br>
+          <select name="symptom_duration">
+              <option value="" disabled selected>-- Select Duration --</option>
+              <option value="1-3 days" data-i18n="opt_1_3">1-3 days</option>
+              <option value="4-7 days" data-i18n="opt_4_7">4-7 days</option>
+              <option value="More than a week" data-i18n="opt_more_1_week">More than a week</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_meds">Have you taken any medication for these symptoms?</label><br>
+          <select name="has_taken_medication">
+              <option value="" disabled selected>-- Select --</option>
+              <option value="Yes" data-i18n="opt_yes">Yes</option>
+              <option value="No" data-i18n="opt_no">No</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_meds_taken">If yes, what medication did you take?</label><br>
+          <input type="text" name="medication_taken" placeholder="Enter medication name(s)" data-i18n="ph_meds"><br><br>
+
+          <label><span data-i18n="lbl_household_size">How many people currently live in your home?</span><span class="required">*</span></label><br>
+          <input type="number" name="household_members" placeholder="Enter number" data-i18n="ph_number" min="1"><br><br>
+
+          <label><span data-i18n="lbl_household_sick">Are any other members of your household currently experiencing illness or severe symptoms?</span> <span class="required">*</span></label><br>
+          <select name="household_sick" required>
+              <option value="" disabled selected>-- Select --</option>
+              <option value="Yes" data-i18n="opt_yes">Yes</option>
+              <option value="No" data-i18n="opt_no_healthy">No, everyone is healthy</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_sick_details">If yes, please specify their symptoms:</label>
+          <input type="text" name="household_sick_details" placeholder="Enter symptoms" data-i18n="ph_symptoms"><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="nextStep()" data-i18n="btn_next">Next</button>
+          </div>
+      </div>
+  </section>
+
+  <!-- STEP 4:CHRONIC CONDITIONS & MAINTENANCE -->
+  <section class="card" id="chronic-card">
+      <div class="card-header" data-i18n="s4_header">Step 4: Chronic Conditions &amp; Maintenance</div>
+      <div class="card-body">
+          <label><span data-i18n="lbl_chronic">Are you currently diagnosed with any of the following chronic conditions? (Select all that apply)</span> <span class="required">*</span></label><br>
+          <label><input type="checkbox" name="chronic" value="Hypertension"> <span data-i18n="opt_hyper">Hypertension (High Blood Pressure)</span></label><br>
+          <label><input type="checkbox" name="chronic" value="Diabetes"> <span data-i18n="opt_diabetes">Diabetes (High Blood Sugar)</span></label><br>
+          <label><input type="checkbox" name="chronic" value="Asthma"> <span data-i18n="opt_asthma">Asthma / Respiratory Disease</span></label><br>
+          <label><input type="checkbox" name="chronic" value="Heart Disease"> <span data-i18n="opt_heart">Heart Disease</span></label><br>
+          <label><input type="checkbox" name="chronic" value="TB"> <span data-i18n="opt_tb">Tuberculosis (TB)</span></label><br>
+          <label><input type="checkbox" name="chronic" value="none"> <span data-i18n="opt_none">None</span></label><br>
+          <label><input type="checkbox" name="chronic" value="Others"> <span data-i18n="opt_others">Others</span></label><br>
+          <input type="text" name="chronic_other_details" placeholder="If others, please specify" data-i18n="ph_others"><br><br>
+
+          <label data-i18n="lbl_maintenance">If diagnosed, are you currently taking maintenance medication regularly?</label><br>
+          <select name="maintenance_med_status">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Yes, supply" data-i18n="opt_supply">Yes, I have supply</option>
+              <option value="Yes, running out" data-i18n="opt_running_out">Yes, but I'm running out</option>
+              <option value="Stopped" data-i18n="opt_stopped">No, I stopped taking</option>
+          </select><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="nextStep()" data-i18n="btn_next">Next</button>
+          </div>
+      </div>
+  </section>
+
+  <!-- STEP 5: OTHER CONDITIONS -->
+  <section class="card" id="other-card">
+      <div class="card-header"><span data-i18n="s5_header">Step 5: Other Conditions</span> <small data-i18n="s5_header_small">(Only if Applicable)</small></div>
+      <div class="card-body">
+          <label><strong data-i18n="lbl_maternal">Maternal Health Care</strong> <small data-i18n="lbl_maternal_small">(For females ages 15–49)</small></label><br><br>
+
+          <label data-i18n="lbl_preg">Are you currently pregnant, or have you given birth in the last 6 months?</label><br>
+          <select name="pregnancy_status">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Currently Pregnant" data-i18n="opt_preg_now">Yes, currently pregnant</option>
+              <option value="Recently gave birth" data-i18n="opt_preg_recent">Yes, recently gave birth</option>
+              <option value="No" data-i18n="opt_no">No</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_prenatal">If pregnant, have you been attending regular prenatal check-ups at the health center?</label><br>
+          <select name="prenatal_checkup">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Yes regularly" data-i18n="opt_reg">Yes, regularly</option>
+              <option value="Yes missed" data-i18n="opt_missed">Yes, missed a few</option>
+              <option value="No" data-i18n="opt_not_yet">No, I haven't gone yet</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_danger">Did you experience any danger signs recently (e.g., severe bleeding, extreme swelling, severe headache)?</label><br>
+          <select name="danger_signs">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Yes" data-i18n="opt_yes">Yes</option>
+              <option value="No" data-i18n="opt_no">No</option>
+          </select><br><br>
+
+          <label><strong data-i18n="lbl_geriatric">Geriatric Care</strong> <small data-i18n="lbl_geriatric_small">(For senior citizens, ages 60 and above)</small></label><br><br>
+
+          <label data-i18n="lbl_assist">Do you require physical assistance with daily activities (e.g., bathing, eating, walking)?</label><br>
+          <select name="physical_assistance">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Independent" data-i18n="opt_indep">Fully independent</option>
+              <option value="Some assistance" data-i18n="opt_some_assist">Need some assistance</option>
+              <option value="Dependent" data-i18n="opt_dependent">Fully dependent / Bedridden</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_age_diff">Are you experiencing any of the following age-related difficulties? (Select all that apply)</label><br>
+          <label><input type="checkbox" name="geriatric_difficulties" value="Joint Pain"> <span data-i18n="opt_joint">Severe joint pain / Arthritis</span></label><br>
+          <label><input type="checkbox" name="geriatric_difficulties" value="Vision"> <span data-i18n="opt_vision">Vision loss / Cataracts</span></label><br>
+          <label><input type="checkbox" name="geriatric_difficulties" value="Hearing"> <span data-i18n="opt_hearing">Hearing Difficulty</span></label><br>
+          <label><input type="checkbox" name="geriatric_difficulties" value="Memory"> <span data-i18n="opt_memory">Memory loss / Confusion</span></label><br>
+          <label><input type="checkbox" name="geriatric_difficulties" value="none"> <span data-i18n="opt_none">None</span></label><br>
+          <label><input type="checkbox" name="geriatric_difficulties" value="Others"> <span data-i18n="opt_others">Others</span></label><br><br>
+
+          <label data-i18n="lbl_senior_id">Do you have an active Senior Citizen ID for medicine discounts?</label><br>
+          <select name="senior_id">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Yes" data-i18n="opt_yes">Yes</option>
+              <option value="No, need assist" data-i18n="opt_need_assist_id">No, need assistance applying</option>
+              <option value="Lost" data-i18n="opt_lost_id">Lost my ID</option>
+          </select><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="nextStep()" data-i18n="btn_next">Next</button>
+          </div>
+      </div>
+  </section>
+ 
+  <!-- STEP 6: MENTAL HEALTH -->
+  <section class="card" id="mental-card">
+      <div class="card-header"><span data-i18n="s6_header">Step 6: Mental Health &amp; Wellbeing</span> <small data-i18n="s6_header_small">(Optional)</small></div>
+      <div class="card-body">
+          <label data-i18n="lbl_mental_diag">Has a doctor or psychiatrist formally diagnosed you with a mental health or neurological condition?</label><br>
+          <select name="mental_diagnosis">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Yes" data-i18n="opt_yes">Yes</option>
+              <option value="No" data-i18n="opt_no">No</option>
+              <option value="Prefer not to answer" data-i18n="opt_prefer_not">Prefer not to answer</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_mental_med">If yes, are you currently taking prescribed maintenance medication for this condition?</label><br>
+          <select name="mental_med_status">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Yes, enough" data-i18n="opt_enough">Yes, and I have enough supply</option>
+              <option value="Yes, need refill" data-i18n="opt_need_refill">Yes, but I need assistance getting refills</option>
+              <option value="Stopped" data-i18n="opt_stopped">No, I stopped taking them</option>
+          </select><br><br>
+
+          <label data-i18n="lbl_psych">Would you like discreet psychological support?</label><br>
+          <select name="psychological_support">
+              <option value="" disabled selected>-- Select Status --</option>
+              <option value="Yes, contact me" data-i18n="opt_contact_me">Yes, please contact me</option>
+              <option value="No, okay" data-i18n="opt_im_okay">No, I am okay</option>
+          </select><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="nextStep()" data-i18n="btn_next">Next</button>
+          </div>
+      </div>
+  </section>
+
+  <!-- STEP 7: SUBMIT -->
+  <section class="card" id="submit-card">
+      <div class="card-header" data-i18n="s7_header">Step 7: Submit</div>
+      <div class="card-body">
+          <label data-i18n="lbl_notes">Additional Health Notes</label><br>
+          <textarea name="additional_notes" rows="5" placeholder="Enter any additional health information or concerns..." data-i18n="ph_notes"></textarea><br><br>
+
+          <label><span data-i18n="lbl_emerg_name">Emergency Contact Person</span><span class="required">*</span></label><br>
+          <input type="text" name="emergency_contact_name" placeholder="Enter emergency contact name" data-i18n="ph_emerg_name" required><br><br>
+
+          <label><span data-i18n="lbl_emerg_num">Emergency Contact Number</span><span class="required">*</span></label><br>
+          <input type="tel" name="emergency_contact_number" maxlength="11" placeholder="Enter emergency contact number" data-i18n="ph_emerg_num" required><br><br>
+
+          <label><input type="checkbox" name="confirm_accuracy" required> <span data-i18n="lbl_confirm">I confirm that all information provided in this form is true and accurate to the best of my knowledge.</span></label><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="buildSummary(); nextStep();" data-i18n="btn_review">Review &amp; Submit</button>
+          </div>
+      </div>
+  </section>
+
+  <!-- ANSWER SUMMARY -->
+  <section class="card" id="summary-card">
+      <div class="card-header" data-i18n="summary_header">Summary of Your Answers</div>
+      <div class="card-body">
+          <p data-i18n="summary_desc">Please review your responses below before final submission.</p>
+          <table id="summary-table" border="1" width="100%" cellpadding="6" cellspacing="0">
+              <thead>
+                  <tr>
+                      <th data-i18n="th_section">Section</th>
+                      <th data-i18n="th_question">Question</th>
+                      <th data-i18n="th_answer">Answer</th>
+                  </tr>
+              </thead>
+              <tbody id="summary-body"></tbody>
+            </table><br>
+
+          <div class="step-nav">
+              <button type="button" onclick="prevStep()" data-i18n="btn_back">Back</button>
+              <button type="button" onclick="finalSubmit()" data-i18n="btn_confirm">Confirm &amp; Submit</button>
+          </div>
+      </div>
+  </section>
+</form>
+
+<!-- SUCCESS SCREEN -->
+<section class="card" id="success-card">
+    <div class="card-header" data-i18n="success_header">Submission Successful</div>
+    <div class="card-body" style="text-align: center;">
+        <h2 data-i18n="success_h2">Thank you!</h2>
+        <p data-i18n="success_p">Your health monitoring data has been securely recorded.</p>
+        <div class="step-nav" style="justify-content: center;">
+            <button type="button" onclick="viewDatabase()" data-i18n="btn_view_db">View Results Database</button>
+            <button type="button" onclick="answerAgain()" style="background: #2e7d32;" data-i18n="btn_answer_again">Answer Another Form</button>
+        </div>
+    </div>
+</section>
+
+<!-- RESULTS -->
+<section class="card" id="database-card" style="max-width: 95%;">
+    <div class="card-header">Results Database</div>
+    <div class="card-body">
+        
+        <div class="step-nav" style="margin-top: 0; margin-bottom: 20px;">
+            <button type="button" onclick="answerAgain()" style="background: #2e7d32; width: auto; padding: 10px 20px;">&larr; <span>Back to Form</span></button>
+            <h3 style="margin: 0; display: flex; align-items: center; margin-left: auto;"><span>Total Submissions:</span> <span id="total-count" style="margin-left: 8px;">0</span></h3>
+        </div>
+
+        <div id="database-container"></div>
+    </div>
+</section>
+
+</body>
+</html>

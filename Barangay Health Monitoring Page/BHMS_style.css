@@ -1,0 +1,362 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f8;
+    margin: 0;
+    color: #222;
+    transition: font-size 0.2s ease; /* Smooth transition for text scaling */
+}
+
+.required {
+    color: red;
+}
+
+/* Floating Controls */
+.controls {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 9999;
+    border: 1px solid #e0e0e0;
+    min-width: 200px;
+}
+
+.controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    user-select: none; /* Prevents text from highlighting on double click */
+}
+
+#toggleIcon {
+    position: relative;
+    left: 60px;
+}
+
+.controls-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 12px;
+    max-height: 200px; /* Enough height to show the contents */
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height 0.3s ease, margin-top 0.3s ease, opacity 0.3s ease;
+}
+
+/* Collapsed State */
+.controls.collapsed .controls-content {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.controls span {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    min-width: 85px; /* Keeps the text aligned neatly */
+}
+
+.controls button {
+    width: 36px;
+    height: 36px;
+    margin: 0 4px;
+    padding: 0;
+    background: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.controls button:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Make the dropdown fit the UI */
+.controls select {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: #f9f9f9;
+    cursor: pointer;
+    outline: none;
+    width: auto;
+    flex-grow: 1; 
+}
+
+/* Headers and Navigation */
+.page-header {
+    background: linear-gradient(135deg, #2e7d32, #4CAF50);
+    color: white;
+    text-align: center;
+    padding: 28px 15px;
+}
+.page-header .title {
+    font-size: 22px;
+    font-weight: 700;
+}
+.page-header .subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+.progress-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #f4f7f8;
+    padding: 10px 0;
+    display: flex;
+}
+.progress-nav {
+    display: flex;
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border-radius: 50px;
+    padding: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    align-items: center;
+    overflow-x: auto; /* allows scrolling on small screens */
+}
+.step-nav {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.step {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    color: #333;
+    padding: 12px 10px;
+    border-radius: 25px;
+    transition: 0.2s;
+    height: 40px;
+    white-space: nowrap;
+}
+.step:hover, .step.active {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Cards */
+.card {
+    display: none;
+    width: 95%;
+    max-width: 850px;
+    margin: 35px auto;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.card.active {
+    display: block;
+}
+.card-header {
+    background: #4CAF50;
+    color: white;
+    padding: 16px 20px;
+    font-size: 17px;
+    font-weight: 600;
+}
+.card-body {
+    padding: 18px;
+}
+
+/* Form Elements */
+label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0;
+    font-weight: 600;
+    color: #444;
+}
+input:not([type="checkbox"]), select, textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: inherit; /* Inherit scaled text size */
+}
+label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+.card-body label:has(strong) {
+    display: block;
+    width: 100%;
+    background: #f0f0f0;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 12px 0 8px 0;
+    box-sizing: border-box;
+}
+.card-body label:has(strong) strong {
+    display: block;
+    margin-bottom: 4px;
+}
+.card-body label:has(strong) small {
+    display: block;
+    font-weight: normal;
+    color: #666;
+}
+.disabled-field {
+    background: #e0e0e0 !important;
+    color: #777 !important;
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: inherit;
+    cursor: pointer;
+    font-weight: bold;
+}
+button:hover {
+    background: #388e3c;
+}
+.step-nav button {
+    width: 48%;
+}
+
+/* Database Sections & Navigations */
+
+.results-nav {
+    display: flex;
+    overflow-x: auto;
+    background: #e0e0e0;
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 25px;
+    position: sticky;
+    top: 60px; /* Sticks just below the main page nav */
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.results-nav-link {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    white-space: nowrap;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.results-nav-link:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+.results-section {
+    margin-bottom: 40px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    scroll-margin-top: 130px; /* Offsets scroll so sticky nav doesn't cover the header */
+}
+
+.results-section-header {
+    background: #2e7d32;
+    color: white;
+    padding: 12px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+}
+
+.results-section-num {
+    background: white;
+    color: #2e7d32;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 12px;
+    font-size: 14px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    padding: 1px; /* Prevents shadow clipping */
+}
+
+.database-table {
+    width: 100%;
+    min-width: 900px; /* Forces scroll on small screens to preserve layout */
+    border-collapse: collapse;
+}
+
+.database-table th {
+    background: #f4f7f8;
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    border-right: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.database-table td {
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #ddd;
+    font-size: 14px;
+    vertical-align: top;
+}
+
+.database-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+
+
+
