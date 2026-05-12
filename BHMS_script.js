@@ -7,7 +7,7 @@ const translations = {
         // General / Nav / Buttons
         req: "(Required)",
         nav_consent: "Consent", nav_profile: "Profile", nav_vax: "Vaccination", nav_symptoms: "Symptoms",
-        nav_conditions: "Conditions", nav_other: "Other", nav_mental: "Mental Health", nav_submit: "Submit",
+        nav_chronic: "Conditions", nav_other: "Other", nav_mental: "Mental Health", nav_submit: "Submit",
         btn_next: "Next", btn_back: "Back", btn_review: "Review & Submit", btn_confirm: "Confirm & Submit",
         btn_view_db: "View Results Database", btn_answer_again: "Answer Another Form", btn_back_form: "Back to Form",
         
@@ -24,7 +24,7 @@ const translations = {
         lbl_rname: "Name of the Respondent (If for someone else)",
         r_name: "Name of respondent",
         lbl_name: "Full Name", ph_name: "Enter full name",
-        lbl_age: "Age", ph_age: "Enter age",
+        lbl_age: "Age", ph_age: "Envter age",
         lbl_sex: "Sex", opt_male: "Male", opt_female: "Female",
         lbl_addr: "Address", ph_addr: "Enter address",
         lbl_contact: "Contact Number", ph_contact: "Enter contact number",
@@ -103,7 +103,7 @@ const translations = {
         // General / Nav / Buttons
         req: "(Kailangan)",
         nav_consent: "Pahintulot", nav_profile: "Profile", nav_vax: "Bakuna", nav_symptoms: "Sintomas",
-        nav_conditions: "Kondisyon", nav_other: "Iba pa", nav_mental: "Kalusugang Pangkaisipan", nav_submit: "Isumite",
+        nav_chronic: "Kondisyon", nav_other: "Iba pa", nav_mental: "Kalusugang Pangkaisipan", nav_submit: "Isumite",
         btn_next: "Susunod", btn_back: "Bumalik", btn_review: "Suriin at Isumite", btn_confirm: "Kumpirmahin at Isumite",
         btn_view_db: "Tingnan ang Database", btn_answer_again: "Sumagot ng Panibagong Form", btn_back_form: "Bumalik sa Form",
 
@@ -327,6 +327,39 @@ function isStepValid() {
         }
     }
 
+    // Validate "Others (Please Specify)" for Symptoms
+    const otherSymptomChecked = card.querySelector('input[name="symptoms"][value="Others"]')?.checked;
+    const otherSymptomText = card.querySelector('input[name="symptoms_other_details"]');
+
+    if (otherSymptomChecked && (!otherSymptomText.value || otherSymptomText.value.trim() === '')) {
+        alert("Please specify your other symptoms.");
+        otherSymptomText.classList.add('error-highlight');
+        otherSymptomText.focus();
+        return false;
+    }
+
+    // Validate "Others (Please Specify)" for Chronic Conditions
+    const otherChronicChecked = card.querySelector('input[name="chronic"][value="Others"]')?.checked;
+    const otherChronicText = card.querySelector('input[name="chronic_other_details"]');
+
+    if (otherChronicChecked && (!otherChronicText.value || otherChronicText.value.trim() === '')) {
+        alert("Please specify your other chronic condition.");
+        otherChronicText.classList.add('error-highlight');
+        otherChronicText.focus();
+        return false;
+    }
+
+    // Validate "Others (Please Specify)" for Vaccination Records
+    const otherVaxChecked = card.querySelector('input[name="annual_vax"][value="other"]')?.checked;
+    const otherVaxText = card.querySelector('input[name="vax_other_details"]');
+    
+    if (otherVaxChecked && (!otherVaxText.value || otherVaxText.value.trim() === '')) {
+        alert("Please specify your other Annual Vaccination.");
+        otherChronicText.classList.add('error-highlight');
+        otherChronicText.focus();
+        return false;
+    }
+
     return true;
 }
 
@@ -395,7 +428,7 @@ function buildSummary() {
     if (getVal('chronic_other_details') !== '—') {
         chronicText += ` (${getVal('chronic_other_details')})`;
     }
-    addRow(tbody, 'Conditions', 'Chronic Conditions', chronicText);
+    addRow(tbody, 'Chronic', 'Chronic Conditions', chronicText);
 
     // Step 7: Emergency (Crucial for Health Forms)
     addRow(tbody, 'Emergency', 'Contact Person', getVal('emergency_contact_name'));

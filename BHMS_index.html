@@ -49,7 +49,7 @@
         <a href="#" class="step" onclick="goToStep(1); return false;" data-i18n="nav_profile">Profile</a>
         <a href="#" class="step" onclick="goToStep(2); return false;" data-i18n="nav_vax">Vaccination</a>
         <a href="#" class="step" onclick="goToStep(3); return false;" data-i18n="nav_symptoms">Symptoms</a>
-        <a href="#" class="step" onclick="goToStep(4); return false;" data-i18n="nav_conditions">Conditions</a>
+        <a href="#" class="step" onclick="goToStep(4); return false;" data-i18n="nav_chronic">Chronic</a>
         <a href="#" class="step" onclick="goToStep(5); return false;" data-i18n="nav_other">Other</a>
         <a href="#" class="step" onclick="goToStep(6); return false;" data-i18n="nav_mental">Mental Health</a>
         <a href="#" class="step" onclick="goToStep(7); return false;" data-i18n="nav_submit">Submit</a>
@@ -96,10 +96,10 @@
           </select><br><br>
 
           <label><span data-i18n="lbl_rname">Name of the Respondent (If for someone else)</span></label><br>
-          <input type="text" name="respondent_name" placeholder="Name of respondent" data-i18n="r_name"><br><br>
+          <input type="text" pattern="[\p{L}\s\-\.']+" name="respondent_name" placeholder="Name of respondent" data-i18n="r_name"><br><br>
 
           <label><span data-i18n="lbl_name">Full Name</span> <span class="required">*</span></label><br>
-          <input type="text" name="full_name" placeholder="Enter full name" data-i18n="ph_name" required><br><br>
+          <input type="text" pattern="[\p{L}\s\-\.']+" name="full_name" placeholder="Enter full name" data-i18n="ph_name" required><br><br>
 
           <label><span data-i18n="lbl_age">Age</span> <span class="required">*</span></label><br>
           <input type="number" name="age" placeholder="Enter age" data-i18n="ph_age" min="1" max="120" required><br><br>
@@ -115,7 +115,7 @@
           <input type="text" name="address" placeholder="Enter address" data-i18n="ph_addr" required><br><br>
 
           <label><span data-i18n="lbl_contact">Contact Number</span> <span class="required">*</span></label><br>
-          <input type="tel" name="contact_number" maxlength="11" placeholder="Enter contact number" data-i18n="ph_contact" required><br><br>
+          <input type="tel" pattern="^(09\d{9}|028\d{7}|8\d{7})$" name="contact_number" maxlength="11" placeholder="Enter contact number" data-i18n="ph_contact" required><br><br>
 
           <label><span data-i18n="lbl_civil">Civil Status</span><span class="required">*</span></label><br>
           <select name="civil_status" required>
@@ -149,7 +149,7 @@
           <label><input type="checkbox" name="annual_vax" value="pneumonia"> <span data-i18n="opt_pneumonia">Pneumonia</span></label>
           <label><input type="checkbox" name="annual_vax" value="none"> <span data-i18n="opt_none">None</span></label>
           <label><input type="checkbox" name="annual_vax" value="other"> <span data-i18n="opt_others">Other</span></label><br>
-          <input type="text" name="symptoms_other_details" placeholder="If others, please specify" data-i18n="ph_others">
+          <input type="text" name="vax_other_details" placeholder="If others, please specify" data-i18n="ph_others">
           <br><br>
           
 
@@ -226,7 +226,7 @@
       </div>
   </section>
 
-  <!-- STEP 4:CHRONIC CONDITIONS & MAINTENANCE -->
+  <!-- STEP 4: CHRONIC CONDITIONS & MAINTENANCE -->
   <section class="card" id="chronic-card">
       <div class="card-header" data-i18n="s4_header">Step 4: Chronic Conditions &amp; Maintenance</div>
       <div class="card-body">
@@ -359,10 +359,10 @@
           <textarea name="additional_notes" rows="5" placeholder="Enter any additional health information or concerns..." data-i18n="ph_notes"></textarea><br><br>
 
           <label><span data-i18n="lbl_emerg_name">Emergency Contact Person</span><span class="required">*</span></label><br>
-          <input type="text" name="emergency_contact_name" placeholder="Enter emergency contact name" data-i18n="ph_emerg_name" required><br><br>
+          <input type="text" pattern="[\p{L}\s\-\.']+" name="emergency_contact_name" placeholder="Enter emergency contact name" data-i18n="ph_emerg_name" required><br><br>
 
           <label><span data-i18n="lbl_emerg_num">Emergency Contact Number</span><span class="required">*</span></label><br>
-          <input type="tel" name="emergency_contact_number" maxlength="11" placeholder="Enter emergency contact number" data-i18n="ph_emerg_num" required><br><br>
+          <input type="tel" pattern="^(09\d{9}|028\d{7}|8\d{7})$" name="emergency_contact_number" maxlength="11" placeholder="Enter emergency contact number" data-i18n="ph_emerg_num" required><br><br>
 
           <label><input type="checkbox" name="confirm_accuracy" required> <span data-i18n="lbl_confirm">I confirm that all information provided in this form is true and accurate to the best of my knowledge.</span></label><br>
 
