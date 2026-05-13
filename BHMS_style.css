@@ -2,19 +2,28 @@ html {
     scroll-behavior: smooth;
 }
 
+
 body {
     font-family: Arial, sans-serif;
     background: #f4f7f8;
     margin: 0;
     color: #222;
-    transition: font-size 0.2s ease; /* Smooth transition for text scaling */
+    transition: font-size 0.2s ease;
 }
+
 
 .required {
     color: red;
 }
 
-/* Floating Controls */
+
+
+
+/* =====================================
+          FLOATING CONTROLS
+====================================== */
+
+
 .controls {
     position: fixed;
     bottom: 20px;
@@ -22,7 +31,7 @@ body {
     background: #ffffff;
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -31,19 +40,22 @@ body {
     min-width: 200px;
 }
 
+
 .controls-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     cursor: pointer;
-    user-select: none; /* Prevents text from highlighting on double click */
+    user-select: none;
 }
+
 
 #toggleIcon {
     position: relative;
     left: 60px;
 }
+
 
 .controls-content {
     display: flex;
@@ -51,18 +63,22 @@ body {
     gap: 12px;
     width: 100%;
     margin-top: 12px;
-    max-height: 200px; /* Enough height to show the contents */
+    max-height: 200px;
     opacity: 1;
     overflow: hidden;
-    transition: max-height 0.3s ease, margin-top 0.3s ease, opacity 0.3s ease;
+    transition:
+        max-height 0.3s ease,
+        margin-top 0.3s ease,
+        opacity 0.3s ease;
 }
 
-/* Collapsed State */
+
 .controls.collapsed .controls-content {
     max-height: 0;
     margin-top: 0;
     opacity: 0;
 }
+
 
 .control-group {
     display: flex;
@@ -70,12 +86,14 @@ body {
     width: 100%;
 }
 
+
 .controls span {
     font-weight: bold;
     font-size: 14px;
     color: #333;
-    min-width: 85px; /* Keeps the text aligned neatly */
+    min-width: 85px;
 }
+
 
 .controls button {
     width: 36px;
@@ -95,12 +113,13 @@ body {
     align-items: center;
 }
 
+
 .controls button:hover {
     background: #4CAF50;
     color: white;
 }
 
-/* Make the dropdown fit the UI */
+
 .controls select {
     padding: 6px 12px;
     border-radius: 8px;
@@ -110,25 +129,38 @@ body {
     cursor: pointer;
     outline: none;
     width: auto;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
-/* Headers and Navigation */
+
+
+
+/* =====================================
+          PAGE HEADER & NAV
+====================================== */
+
+
 .page-header {
     background: linear-gradient(135deg, #2e7d32, #4CAF50);
     color: white;
     text-align: center;
     padding: 28px 15px;
 }
+
+
 .page-header .title {
     font-size: 22px;
     font-weight: 700;
 }
+
+
 .page-header .subtitle {
     font-size: 14px;
     opacity: 0.9;
     margin-top: 4px;
 }
+
+
 .progress-wrapper {
     position: sticky;
     top: 0;
@@ -137,6 +169,8 @@ body {
     padding: 10px 0;
     display: flex;
 }
+
+
 .progress-nav {
     display: flex;
     max-width: 900px;
@@ -146,13 +180,10 @@ body {
     padding: 10px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     align-items: center;
-    overflow-x: auto; /* allows scrolling on small screens */
+    overflow-x: auto;
 }
-.step-nav {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
+
+
 .step {
     flex: 1;
     display: flex;
@@ -167,58 +198,85 @@ body {
     transition: 0.2s;
     height: 40px;
     white-space: nowrap;
+    pointer-events: none; 
 }
-.step:hover, .step.active {
+
+.step:hover,
+.step.active {
     background: #4CAF50;
     color: white;
 }
 
-/* Cards */
+
+
+
+/* =====================================
+               CARDS
+====================================== */
+
+
 .card {
     display: none;
     width: 95%;
     max-width: 850px;
-    margin: 35px auto;
-    background: white;
-    border-radius: 14px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
 }
+
+
 .card.active {
     display: block;
 }
+
+
 .card-header {
-    background: #4CAF50;
+    background: linear-gradient(135deg, #4CAF50, #2e7d32);
     color: white;
-    padding: 16px 20px;
-    font-size: 17px;
-    font-weight: 600;
+    padding: 18px 20px;
+    font-size: 18px;
+    font-weight: 700;
 }
+
+
 .card-body {
     padding: 18px;
 }
 
-/* Form Elements */
+
+
+
+/* =====================================
+            FORM ELEMENTS
+====================================== */
+
+
 label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin: 4px 0;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
     font-weight: 600;
-    color: #444;
+    color: #333;
 }
-input:not([type="checkbox"]), select, textarea {
+
+
+input:not([type="checkbox"]),
+select,
+textarea {
     width: 100%;
-    padding: 11px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-sizing: border-box;
-    font-size: inherit; /* Inherit scaled text size */
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: 0.2s;
 }
-label input[type="checkbox"] {
-    width: auto;
-    margin: 0;
-}
+
+
 .card-body label:has(strong) {
     display: block;
     width: 100%;
@@ -228,15 +286,21 @@ label input[type="checkbox"] {
     margin: 12px 0 8px 0;
     box-sizing: border-box;
 }
+
+
 .card-body label:has(strong) strong {
     display: block;
     margin-bottom: 4px;
 }
+
+
 .card-body label:has(strong) small {
     display: block;
     font-weight: normal;
     color: #666;
 }
+
+
 .disabled-field {
     background: #e0e0e0 !important;
     color: #777 !important;
@@ -244,7 +308,114 @@ label input[type="checkbox"] {
     opacity: 0.9;
 }
 
-/* Buttons */
+
+
+
+/* =====================================
+             FORM LAYOUTS
+====================================== */
+
+
+.name-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+
+.name-row input {
+    flex: 1;
+}
+
+
+.name-row input:last-child {
+    max-width: 90px;
+}
+
+
+.name-grid {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    gap: 12px;
+}
+
+
+.address-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+
+
+
+/* =====================================
+           CONTACT WRAPPER
+====================================== */
+
+
+.contact-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+
+.contact-wrapper span {
+    padding: 10px;
+    background: #f0f0f0;
+    font-weight: bold;
+    border-right: 1px solid #ccc;
+    white-space: nowrap;
+}
+
+
+.contact-wrapper input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px;
+}
+
+
+
+
+/* =====================================
+          SECTION CONTAINERS
+====================================== */
+
+
+.section-title {
+    display: block;
+    width: 100%;
+    background: #f0f0f0;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 12px 0 8px 0;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+
+.section-box {
+    background: #f7f9f9;
+    padding: 16px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 5px solid #4CAF50;
+}
+
+
+
+
+/* =====================================
+               BUTTONS
+====================================== */
+
+
 button {
     width: 100%;
     margin-top: 15px;
@@ -257,14 +428,48 @@ button {
     cursor: pointer;
     font-weight: bold;
 }
+
+
 button:hover {
     background: #388e3c;
 }
-.step-nav button {
-    width: 48%;
+
+
+.step-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
 }
 
-/* Database Sections & Navigations */
+
+.step-nav button {
+    width: 48%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+
+.step-nav button:first-child {
+    background: #e0e0e0;
+    color: #333;
+}
+
+
+.step-nav button:last-child {
+    background: #4CAF50;
+    color: white;
+}
+
+
+
+
+/* =====================================
+        DATABASE / RESULTS SECTION
+====================================== */
+
 
 .results-nav {
     display: flex;
@@ -274,10 +479,11 @@ button:hover {
     padding: 8px;
     margin-bottom: 25px;
     position: sticky;
-    top: 60px; /* Sticks just below the main page nav */
+    top: 60px;
     z-index: 100;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+
 
 .results-nav-link {
     text-decoration: none;
@@ -289,10 +495,12 @@ button:hover {
     transition: background 0.2s;
 }
 
+
 .results-nav-link:hover {
     background: #4CAF50;
     color: white;
 }
+
 
 .results-section {
     margin-bottom: 40px;
@@ -300,8 +508,9 @@ button:hover {
     border-radius: 8px;
     background: white;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    scroll-margin-top: 130px; /* Offsets scroll so sticky nav doesn't cover the header */
+    scroll-margin-top: 130px;
 }
+
 
 .results-section-header {
     background: #2e7d32;
@@ -313,6 +522,7 @@ button:hover {
     display: flex;
     align-items: center;
 }
+
 
 .results-section-num {
     background: white;
@@ -327,16 +537,26 @@ button:hover {
     font-size: 14px;
 }
 
+
+
+
+/* =====================================
+                TABLES
+====================================== */
+
+
 .table-responsive {
     overflow-x: auto;
-    padding: 1px; /* Prevents shadow clipping */
+    padding: 1px;
 }
+
 
 .database-table {
     width: 100%;
-    min-width: 900px; /* Forces scroll on small screens to preserve layout */
+    min-width: 900px;
     border-collapse: collapse;
 }
+
 
 .database-table th {
     background: #f4f7f8;
@@ -346,6 +566,7 @@ button:hover {
     font-size: 14px;
 }
 
+
 .database-table td {
     border-bottom: 1px solid #eee;
     border-right: 1px solid #ddd;
@@ -353,10 +574,177 @@ button:hover {
     vertical-align: top;
 }
 
+
 .database-table tr:hover {
     background-color: #f9f9f9;
 }
 
 
+/* =====================================
+           DOCUMENT MODAL
+====================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    text-align: center;
+}
+
+#modalViewer {
+    width: 100%;
+    height: 80vh;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.view-img-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    margin-top: 0;
+    width: auto;
+    background: #007bff;
+}
+
+.view-img-btn:hover {
+    background: #0056b3;
+}
 
 
+
+/* =====================================
+           PRINT STYLES
+====================================== */
+@media print {
+    /* 1. Hide everything that isn't the results database */
+    .controls,
+    .page-header,
+    .progress-wrapper,
+    .results-nav,
+    .step-nav,
+    form,
+    #success-card,
+    .modal-overlay {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+        color: #000;
+    }
+
+    /* 2. Expand the database card to fill the printed page */
+    #database-card {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        display: block !important;
+    }
+
+    /* Hide the standard HTML card header, we will replace it with a cleaner print title */
+    .card-header {
+        display: none !important;
+    }
+
+    .card-body {
+        padding: 0 !important;
+    }
+
+    /* 3. Inject a professional title at the top of the printed document */
+    #database-card::before {
+        content: "Barangay Health Monitoring System — Results Database";
+        display: block;
+        font-size: 22px;
+        font-weight: bold;
+        color: #2e7d32;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #2e7d32;
+        padding-bottom: 12px;
+    }
+
+    /* 4. Format tables to fit on paper */
+    .database-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        font-size: 8pt !important;
+        word-break: break-word !important;
+    }
+
+    .database-table th,
+    .database-table td {
+        padding: 6px !important;
+        font-size: 8pt !important;
+        white-space: normal !important;
+        overflow-wrap: break-word !important;
+    }
+
+    /* Force the browser to print the green table headers */
+    .database-table thead tr {
+        background: #2e7d32 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Prevent tables from being cut in half across pages */
+    .results-section {
+        page-break-inside: avoid;
+        margin-bottom: 24px;
+    }
+
+    tr {
+        page-break-inside: avoid;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .print-only-text {
+        display: inline-block !important;
+        font-weight: bold;
+        color: #2e7d32; /* Optional: Makes the text green on color printers */
+    }
+}
+
+/* Hide the image on the computer screen */
+.print-only-text {
+    display: none;
+}
