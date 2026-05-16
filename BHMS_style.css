@@ -652,6 +652,7 @@ button:hover {
 @media print {
     /* 1. Hide everything that isn't the results database */
     .controls,
+    .admin-controls,
     .page-header,
     .progress-wrapper,
     .results-nav,
@@ -747,4 +748,30 @@ button:hover {
 /* Hide the image on the computer screen */
 .print-only-text {
     display: none;
+}
+
+/* =====================================
+           ADMIN CONTROLS
+====================================== */
+.admin-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #f3f3f3;
+    color: #fff;
+    padding: 12px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.admin-controls:hover {
+    background: #c8c8c8;
+    transform: scale(1.05);
 }

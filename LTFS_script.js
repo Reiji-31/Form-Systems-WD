@@ -745,33 +745,26 @@ function answerAgain() {
 
 
 /* ══════════════════════════════════════
-          BACK TO START PAGE
-   ── FIX 2: Always returns to the start
-   page, whether coming from the header
-   "View Results" button or from the
-   thank-you page after submitting.
-══════════════════════════════════════ */
-function backFromResults() {
-  // Always go to the start page so the user can take the survey again.
-  // The form is NOT reset here — if they want a fresh form they press
-  // "Answer Again" on the thank-you page.
-  goToStep('start', true);
-}
-
-
-/* ══════════════════════════════════════
-               RESULTS
+               RESULTS & ADMIN
 ══════════════════════════════════════ */
 const submissions = [];
-
+let lastStepBeforeAdmin = 'start'; // Memory for the admin button
 
 function showResults() {
+  if (currentStep !== 'results') {
+    lastStepBeforeAdmin = currentStep;
+  }
+  
   renderResults();
   goToStep('results', true);
 }
+function backFromResults() {
+  // Return the user to their exact spot before the Admin took over
+  goToStep(lastStepBeforeAdmin, true);
+}
 
-
-document.getElementById('view-results-btn').addEventListener('click', showResults);
+// Attach the listener to the new floating Admin button
+document.getElementById('admin-results-btn').addEventListener('click', showResults);
 
 
 function tableSection(id, num, title, headers, rows) {

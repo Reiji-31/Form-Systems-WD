@@ -1,3 +1,8 @@
+/* ═════════════════════════════════════════════════════
+   BHMS_script.js — Barangay Health Monitoring System
+════════════════════════════════════════════════════════ */
+
+
 /* =====================================
               TRANSLATIONS
 ====================================== */
@@ -986,6 +991,8 @@ async function finalSubmit() {
 
 function viewDatabase() {
     // 1. Swap Screens
+    document.getElementById('healthForm').style.display = 'none'; // Hides the form if open
+    document.getElementById('main-nav').style.display = 'none';   // Hides the top nav bar
     document.getElementById('success-card').classList.remove('active');
     document.getElementById('database-card').classList.add('active');
     document.getElementById('total-count').innerText = submissions.length;
@@ -1104,6 +1111,17 @@ function viewDatabase() {
     document.getElementById('database-container').innerHTML = navHTML + sectionsHTML.join('');
 }
 
+/* =====================================
+           CLOSE DATABASE (ADMIN)
+====================================== */
+function closeDatabase() {
+    // Hide the database
+    document.getElementById('database-card').classList.remove('active');
+    
+    // Bring back the form and navigation bar exactly as they were left
+    document.getElementById('healthForm').style.display = 'block';
+    document.getElementById('main-nav').style.display = 'flex';
+}
 
 
 

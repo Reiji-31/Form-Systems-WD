@@ -652,7 +652,6 @@
         <h2 data-i18n="success_h2">Thank you!</h2>
         <p data-i18n="success_p">Your health monitoring data has been securely recorded.</p>
         <div class="step-nav" style="justify-content: center;">
-            <button type="button" onclick="viewDatabase()" data-i18n="btn_view_db">View Results Database</button>
             <button type="button" onclick="answerAgain()" style="background: #2e7d32;" data-i18n="btn_answer_again">Answer Another Form</button>
         </div>
     </div>
@@ -668,7 +667,7 @@
        
         <div class="step-nav" style="margin-top: 0; margin-bottom: 20px; align-items: center;">
             <div style="display: flex; gap: 10px;">
-                <button type="button" onclick="answerAgain()" style="background: #2e7d32; width: auto; padding: 10px 20px; margin-top: 0; color: white;">&larr; <span>Back to Form</span></button>
+                <button type="button" onclick="closeDatabase()" style="background: #2e7d32; width: auto; padding: 10px 20px; margin-top: 0; color: white;">&larr; <span>Go Back to Form</span></button>
                 <button type="button" onclick="printResults()" style="background: #d97706; width: auto; padding: 10px 20px; margin-top: 0; color: white;">🖨️ Print Results</button>
             </div>
             <h3 style="margin: 0; display: flex; align-items: center; margin-left: auto;"><span>Total Submissions:</span> <span id="total-count" style="margin-left: 8px;">0</span></h3>
@@ -689,6 +688,9 @@
     </div>
 </div>
 
+<div class="admin-controls" onclick="viewDatabase()" title="Admin Access">
+    <span>👤</span>
+</div>
 
 </body>
 </html>
