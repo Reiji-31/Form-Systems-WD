@@ -180,7 +180,7 @@
 
 
         <!-- SEX -->
-        <label data-i18n="lbl_sex"> Sex <span class="required">*</span> </label>
+        <label><span data-i18n="lbl_sex"> Sex </span> <span class="required">*</span></label>
 
 
             <select name="sex" required>
@@ -191,7 +191,7 @@
 
 
         <!-- CIVIL STATUS -->
-        <label data-i18n="lbl_civil"> Civil Status <span class="required">*</span> </label>
+        <label><span data-i18n="lbl_civil"> Civil Status </span> <span class="required">*</span></label>
 
 
             <select name="civil_status" required>
@@ -210,11 +210,11 @@
         <h3 class="section-title" data-i18n="address_details"> Address Details</h3>
 
 
-        <label data-i18n="present_address">Present Address</label>
+        <label> <span data-i18n="present_address"> Present Address </span> <span class="required">*</span></label>
 
 
         <div class="address-grid">
-            <input name="unit_no" placeholder="Unit / House No." required pattern="[\p{L}\s\d.']+"/>
+            <input name="unit_no" placeholder="Unit / House No." required pattern="^(?=.*\p{L})[\p{L}\d\s'-]+$"/>
             <input name="street" placeholder="Street (e.g., Pureza St.)" required pattern="^(?=.*\p{L})[\p{L}\d\s'-]+$"/>
 
 
@@ -245,7 +245,7 @@
 
 
         <!-- CONTACT -->
-        <label data-i18n="lbl_contact"> Contact Number <span class="required">*</span> </label>
+        <label><span data-i18n="lbl_contact"> Contact Number </span> <span class="required">*</span></label>
 
 
             <select name="contact_type" onchange="toggleContactPrefix(); validateContactLive()">

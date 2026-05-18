@@ -309,17 +309,54 @@ function showToast(msg) {
      INPUT VALIDATION — per field
 ══════════════════════════════════════ */
 
-
-function sanitiseText(inputEl) {
+function sanitiseText(inputEl, isName = false) {
   inputEl.addEventListener('blur', () => {
-    inputEl.value = inputEl.value.trim();
-  });
-  inputEl.addEventListener('input', () => {
-    if (/^\d+$/.test(inputEl.value)) {
+    let val = inputEl.value.trim();
+    
+    // If the input isn't empty, it MUST contain at least one letter. 
+    // This blocks purely numeric inputs, "-1", or symbols-only text.
+    if (val !== '' && !/[a-zA-ZñÑ]/.test(val)) {
       inputEl.value = '';
-      showToast('Please enter a valid text value — numbers are not accepted here.');
+      showToast('Please enter a valid response (must contain letters).');
+    } else {
+      inputEl.value = val;
     }
   });
+
+  inputEl.addEventListener('input', () => {
+    // Prevent the very first character from being a special math/punctuation symbol (like -, +, *)
+    if (/^[^a-zA-Z0-9ñÑ]/.test(inputEl.value)) {
+      inputEl.value = inputEl.value.replace(/^[^a-zA-Z0-9ñÑ]+/, '');
+      showToast('Input cannot start with special characters.');
+    }
+
+    // If it's a Name field, aggressively prevent numbers anywhere in the string
+    if (isName && /\d/.test(inputEl.value)) {
+      inputEl.value = inputEl.value.replace(/\d/g, '');
+      showToast('Names cannot contain numbers.');
+    }
+  });
+}
+
+function attachTextValidation() {
+  // Pass 'true' for the name field to trigger the strict no-numbers rule
+  const nameEl = document.getElementById('v-fullname');
+  if (nameEl) sanitiseText(nameEl, true);
+
+  // Address fields can contain numbers (e.g., "663 Adriatico St"), but still require letters
+  ['v-city','v-municipality','v-barangay'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) sanitiseText(el, false);
+  });
+}
+
+
+function attachTextValidation() {
+  ['v-fullname','v-city','v-municipality','v-barangay']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (el) sanitiseText(el);
+    });
 }
 
 
@@ -361,15 +398,29 @@ function enforceVisitDate() {
   });
 }
 
-
-function attachTextValidation() {
-  ['v-fullname','v-city','v-municipality','v-barangay']
-    .forEach(id => {
-      const el = document.getElementById(id);
-      if (el) sanitiseText(el);
+/* ══════════════════════════════════════
+             CHECKBOX LOGIC
+══════════════════════════════════════ */
+function setupExclusiveCheckboxes(groupName, exclusiveValue) {
+  const checkboxes = document.querySelectorAll(`input[name="${groupName}"]`);
+  
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        if (e.target.value === exclusiveValue) {
+          // If the user checks "None", uncheck all other options in this group
+          checkboxes.forEach(other => {
+            if (other !== e.target) other.checked = false;
+          });
+        } else {
+          // If the user checks anything else, uncheck the "None" option
+          const noneCb = document.querySelector(`input[name="${groupName}"][value="${exclusiveValue}"]`);
+          if (noneCb) noneCb.checked = false;
+        }
+      }
     });
+  });
 }
-
 
 /* ══════════════════════════════════════
      STEP VALIDATION — required checks
@@ -940,7 +991,9 @@ function renderResults() {
 attachTextValidation();
 enforceAge();
 enforceVisitDate();
+
+// Setup the exclusive "None" checkbox behavior
+setupExclusiveCheckboxes('clean_concern', 'No concerns');
+setupExclusiveCheckboxes('visitwith', 'None of the above');
+
 updateProgress();
-
-
-

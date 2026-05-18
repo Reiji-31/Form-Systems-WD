@@ -786,49 +786,79 @@ function setupOthersToggle() {
 }
 
 
-/* =====================================
-     TOGGLE DEPENDENT FIELDS (NONE)
-====================================== */
+/* ===========================================
+    TOGGLE DEPENDENT FIELDS ('None' options)
+=========================================== */
 function setupDependentFields() {
-    // Define the rules: If 'groupName' has 'noneValue' checked, disable the 'targets'
+    // Define the rules for both checkboxes and selects
     const rules = [
         {
-            groupName: 'symptoms',
-            noneValue: 'none',
+            type: 'checkbox',
+            triggerName: 'symptoms',
+            disableValue: 'none',
             targets: ['symptom_duration', 'has_taken_medication', 'medication_taken']
         },
         {
-            groupName: 'chronic',
-            noneValue: 'none',
+            type: 'checkbox',
+            triggerName: 'chronic',
+            disableValue: 'none',
             targets: ['maintenance_med_status']
+        },
+        {
+            type: 'select',
+            triggerName: 'vaxcard_available',
+            disableValue: 'None',
+            targets: ['vax_document']
+        },
+        {
+            type: 'select',
+            triggerName: 'household_sick',
+            disableValue: 'No', // "No, everyone is healthy"
+            targets: ['household_sick_details']
         }
     ];
 
     rules.forEach(rule => {
-        const checkboxes = document.querySelectorAll(`input[name="${rule.groupName}"]`);
-        
-        checkboxes.forEach(cb => {
-            cb.addEventListener('change', () => {
-                // Check if the "None" checkbox in this specific group is currently checked
-                const noneCheckbox = document.querySelector(`input[name="${rule.groupName}"][value="${rule.noneValue}"]`);
-                const isNoneChecked = noneCheckbox && noneCheckbox.checked;
+        // Core logic to disable/enable targets
+        const toggleFields = () => {
+            let shouldDisable = false;
 
-                // Loop through all the follow-up questions and disable/enable them
-                rule.targets.forEach(targetName => {
-                    const targetEl = document.querySelector(`[name="${targetName}"]`);
-                    if (targetEl) {
-                        if (isNoneChecked) {
-                            targetEl.disabled = true;
-                            targetEl.classList.add('disabled-field'); // Turns it gray
-                            targetEl.value = ""; // Instantly clears any previous answers
-                        } else {
-                            targetEl.disabled = false;
-                            targetEl.classList.remove('disabled-field'); // Returns to normal
-                        }
+            // Determine if the target value is selected based on the input type
+            if (rule.type === 'checkbox') {
+                const noneCheckbox = document.querySelector(`input[name="${rule.triggerName}"][value="${rule.disableValue}"]`);
+                shouldDisable = noneCheckbox && noneCheckbox.checked;
+            } else if (rule.type === 'select') {
+                const selectEl = document.querySelector(`select[name="${rule.triggerName}"]`);
+                shouldDisable = selectEl && selectEl.value === rule.disableValue;
+            }
+
+            // Apply the state to all target fields
+            rule.targets.forEach(targetName => {
+                const targetEl = document.querySelector(`[name="${targetName}"]`);
+                if (targetEl) {
+                    if (shouldDisable) {
+                        targetEl.disabled = true;
+                        targetEl.classList.add('disabled-field'); // Turns it gray
+                        targetEl.value = ""; // Instantly clears previous answers or files
+                    } else {
+                        targetEl.disabled = false;
+                        targetEl.classList.remove('disabled-field'); // Returns to normal
                     }
-                });
+                }
             });
-        });
+        };
+
+        // Attach event listeners
+        if (rule.type === 'checkbox') {
+            const checkboxes = document.querySelectorAll(`input[name="${rule.triggerName}"]`);
+            checkboxes.forEach(cb => cb.addEventListener('change', toggleFields));
+        } else if (rule.type === 'select') {
+            const selectEl = document.querySelector(`select[name="${rule.triggerName}"]`);
+            if (selectEl) selectEl.addEventListener('change', toggleFields);
+        }
+
+        // Run once on load to catch any cached browser form states
+        toggleFields();
     });
 }
 
