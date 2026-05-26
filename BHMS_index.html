@@ -151,10 +151,10 @@
 
 
     <div class="name-grid">
-        <input name="respondent_lname" placeholder="Last Name" required pattern="^(?=.*\p{L})[\p{L}\s'\-]+$" />
-        <input name="respondent_fname" placeholder="First Name" required pattern="^(?=.*\p{L})[\p{L}\s'\-]+$" />
-        <input name="respondent_mi" placeholder="M.I." maxlength="2" pattern="^(?=.*\p{L})[\p{L}\s'\-\.]+$"/>
-        <input name="respondent_suffix" placeholder="Suffix (Jr, Sr, III)" pattern="^(?=.*\p{L})[\p{L}\s'\-\.]+$"/>
+        <input name="respondent_lname" placeholder="Last Name" required pattern="^\p{L}([\p{L}\s'\-]*\p{L})?$" />
+        <input name="respondent_fname" placeholder="First Name" required pattern="^\p{L}([\p{L}\s'\-]*\p{L})?$" />
+        <input name="respondent_mi" placeholder="M.I." maxlength="2" pattern="^(?=.*\p{L})[\p{L}\s]+$"/>
+        <input name="respondent_suffix" placeholder="Suffix (Jr, Sr, III)" pattern="^(?=.*\p{L})[\p{L}\s]+$"/>
     </div>
 
 
@@ -170,9 +170,9 @@
 
         <div class="name-grid">
             <input name="full_lname" placeholder="Last Name" required pattern="^\p{L}([\p{L}\s'\-]*\p{L})?$" />
-            <input name="full_fname" placeholder="First Name" required pattern="^\p{L}[\p{L}\s'\-]*$" />
+            <input name="full_fname" placeholder="First Name" required pattern="^\p{L}([\p{L}\s'\-]*\p{L})?$" />
             <input name="full_mi" placeholder="M.I." maxlength="2" pattern="^(?=.*\p{L})[\p{L}\s]+$"/>
-            <input name="full_suffix" placeholder="Suffix (Jr, Sr, III)" pattern="^(?=.*\p{L})[\p{L}\s'\-]+$" />
+            <input name="full_suffix" placeholder="Suffix (Jr, Sr, III)" pattern="^(?=.*\p{L})[\p{L}\s]+$" />
         </div>
 
 
@@ -589,7 +589,7 @@
 
 
           <label><span data-i18n="lbl_emerg_name">Emergency Contact Person</span><span class="required">*</span></label><br>
-          <input type="text" pattern="^(?=.*\p{L})[\p{L}\s'\-\.]+$" name="emergency_contact_name" placeholder="Enter emergency contact name" data-i18n="ph_emerg_name" required><br><br>
+          <input type="text" pattern="^\p{L}([\p{L}\s'\-]*\p{L})?$"g name="emergency_contact_name" placeholder="Enter emergency contact name" data-i18n="ph_emerg_name" required><br><br>
 
 
 
