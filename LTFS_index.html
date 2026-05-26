@@ -80,10 +80,13 @@
 
 
       <!-- CONSENT & DATA PRIVACY NOTICE (required before proceeding) -->
-      <div class="field" style="margin-top: 25px; margin-bottom: 25px; text-align: left;">
-        <label class="check-item" id="consent-container" style="align-items: flex-start;">
+      <div class="field" style="margin-top: 25px; margin-bottom: 25px;">
+        <label class="check-item" id="consent-container" style="display: flex; flex-direction: row; align-items: center; gap: 12px; text-align: left;">
           <input type="checkbox" id="consent-check" required>
-          <span data-key="consent_lbl" style="font-size: calc(13.5px * var(--font-scale)); line-height: 1.5; color: var(--text);">
+          
+          <div class="check-box" style="flex-shrink: 0; margin: 0;"></div> 
+          
+          <span data-key="consent_lbl" style="flex: 1; font-size: calc(13.5px * var(--font-scale)); line-height: 1.4; color: var(--text);">
             I agree to the collection and use of my feedback for the purpose of improving Manila Zoo's services in accordance with the Data Privacy Act of 2012.
           </span>
         </label>
