@@ -169,10 +169,10 @@
 
 
         <div class="name-grid">
-            <input name="full_lname" placeholder="Last Name" required pattern="^(?=.*\p{L})[\p{L}\s'\-]+$" />
-            <input name="full_fname" placeholder="First Name" required pattern="^(?=.*\p{L})[\p{L}\s'\-]+$" />
+            <input name="full_lname" placeholder="Last Name" required pattern="^\p{L}([\p{L}\s'\-]*\p{L})?$" />
+            <input name="full_fname" placeholder="First Name" required pattern="^\p{L}[\p{L}\s'\-]*$" />
             <input name="full_mi" placeholder="M.I." maxlength="2" pattern="^(?=.*\p{L})[\p{L}\s]+$"/>
-            <input name="full_suffix" placeholder="Suffix (Jr, Sr, III)" pattern="^(?=.*\p{L})[\p{L}\s\-]+$" />
+            <input name="full_suffix" placeholder="Suffix (Jr, Sr, III)" pattern="^(?=.*\p{L})[\p{L}\s'\-]+$" />
         </div>
 
 
