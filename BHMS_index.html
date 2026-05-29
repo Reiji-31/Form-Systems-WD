@@ -118,7 +118,7 @@
 
 
         <select name="form_for" required>
-            <option value="" data-i18n="opt_select_person">Select person</option>
+            <option value="" data-i18n="opt_select_person" selected disabled>Select Person</option>
             <option value="Myself" data-i18n="opt_myself">For myself</option>
             <option value="Someone Else" data-i18n="opt_someone">For someone else</option>
         </select>
@@ -129,7 +129,7 @@
 
 
             <select name="relationship" required>
-                <option value="" data-i18n="opt_select_relationship">Select Relationship</option>
+                <option value="" data-i18n="opt_select_relationship" selected disabled>Select Relationship</option>
                 <option value="Guardian" data-i18n="opt_guardian">Guardian</option>
                 <option value="Parent" data-i18n="opt_parent">Parent</option>
                 <option value="Child" data-i18n="opt_child">Child</option>
@@ -177,6 +177,9 @@
 
 
         <hr>
+
+        <label><span data-i18n="lbl_age">Age</span> <span class="required">*</span></label>
+        <input type="number" name="age" id="v-age" placeholder="Enter age" data-i18n="ph_age" min="1" max="120" required oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
 
 
         <!-- SEX -->

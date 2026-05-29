@@ -973,6 +973,13 @@ header span {
 
 .star-empty { color: #d1d5db; }
 
+/* Ensure long comments don't break the table layout */
+#sec-comments .results-table td:nth-child(9) {
+    min-width: 250px;
+    max-width: 400px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
 
 /* Empty state when no submissions exist yet */
 .results-empty {
@@ -1011,6 +1018,27 @@ header span {
 .results-back:hover { color: var(--green-mid); }
 .results-back::before { content: '←'; font-size: calc(16px * var(--font-scale)); }
 
+/* Delete button */
+.delete-btn {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #b91c1c;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 6px 10px;
+    font-size: 12px;
+    transition: all 0.2s;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+    color: white;
+    transform: scale(1.05);
+}
 
 /* Print button inside results page */
 .results-print-btn {
@@ -1051,7 +1079,8 @@ header span {
   .results-back,
   .results-print-btn,
   .results-actions,
-  #lang-toggle {
+  #lang-toggle,
+  .delete-btn {
     display: none !important;
   }
 

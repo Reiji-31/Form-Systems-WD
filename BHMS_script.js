@@ -1,7 +1,3 @@
-/* ═════════════════════════════════════════════════════
-   BHMS_script.js — Barangay Health Monitoring System
-════════════════════════════════════════════════════════ */
-
 
 /* =====================================
               TRANSLATIONS
@@ -395,42 +391,35 @@ function isStepValid() {
     var formCards = document.querySelectorAll('#healthForm .card');
     var card = formCards[currentStep];
 
-
-    // --- Native HTML5 Validation ---
-    var inputs = card.querySelectorAll("input, select, textarea");
-    for (let input of inputs) {
-        if (!input.checkValidity()) {
-            input.reportValidity();
-            return false;
-        }
-    }
-
-
-    // Skip validation for optional cards (if needed)
+    // 1. Skip validation for optional cards
     if (card.id === "other-card" || card.id === "mental-card") {
         return true;
     }
 
-
-    // Checkbox validation
+    // 2. Custom Checkbox & Document Validation
     if (!requireCheckboxGroup(card, "annual_vax", "Please select at least one vaccine option.")) return false;
     if (!requireCheckboxGroup(card, "symptoms", "Please select at least one symptom option.")) return false;
     if (!requireCheckboxGroup(card, "chronic", "Please select at least one chronic condition option.")) return false;
 
+    if (card.id === "vaccination-card") {
+        const docStatus = card.querySelector('[name="vaxcard_available"]').value;
+        const docFile = card.querySelector('[name="vax_document"]').value;
+        if ((docStatus === "VaxCard" || docStatus === "VaxCert") && !docFile) {
+            alert("Please upload your VaxCard or VaxCert, or change the selection to 'None'.");
+            return false;
+        }
+    }
 
-    // Emergency contact validation (submit step)
+    // 3. Emergency Contact Validation
     if (card.id === "submit-card") {
         var name = card.querySelector('[name="emergency_contact_name"]');
         var number = card.querySelector('[name="emergency_contact_number"]');
-
 
         if (!name.value.trim()) {
             alert("Please enter emergency contact person.");
             name.focus();
             return false;
         }
-
-
         if (!number.value.trim()) {
             alert("Please enter emergency contact number.");
             number.focus();
@@ -438,11 +427,9 @@ function isStepValid() {
         }
     }
 
-
-    // Validate "Others (Please Specify)" for Symptoms
+    // 4. "Others (Please Specify)" Validation
     const otherSymptomChecked = card.querySelector('input[name="symptoms"][value="Others"]')?.checked;
     const otherSymptomText = card.querySelector('input[name="symptoms_other_details"]');
-
     if (otherSymptomChecked && (!otherSymptomText.value || otherSymptomText.value.trim() === '')) {
         alert("Please specify your other symptoms.");
         otherSymptomText.classList.add('error-highlight');
@@ -450,10 +437,8 @@ function isStepValid() {
         return false;
     }
 
-    // Validate "Others (Please Specify)" for Chronic Conditions
     const otherChronicChecked = card.querySelector('input[name="chronic"][value="Others"]')?.checked;
     const otherChronicText = card.querySelector('input[name="chronic_other_details"]');
-
     if (otherChronicChecked && (!otherChronicText.value || otherChronicText.value.trim() === '')) {
         alert("Please specify your other chronic condition.");
         otherChronicText.classList.add('error-highlight');
@@ -461,62 +446,41 @@ function isStepValid() {
         return false;
     }
 
-    // Validate "Others (Please Specify)" for Vaccination Records
     const otherVaxChecked = card.querySelector('input[name="annual_vax"][value="Other"]')?.checked;
     const otherVaxText = card.querySelector('input[name="vax_other_details"]');
-    
     if (otherVaxChecked && (!otherVaxText.value || otherVaxText.value.trim() === '')) {
         alert("Please specify your other Annual Vaccination.");
-        otherChronicText.classList.add('error-highlight');
-        otherChronicText.focus();
+        otherVaxText.classList.add('error-highlight');
+        otherVaxText.focus();
         return false;
     }
 
-    // ===============================
-    // CONTACT NUMBER VALIDATION
-    // ===============================
-    // ===============================
+    // 5. Contact Number Validation
     const contactType = card.querySelector('[name="contact_type"]');
     const contactInput = card.querySelector('[name="contact_number"]');
-
-
-    if (contactInput) {
+    if (contactInput && contactInput.value.trim() !== '') {
         const value = contactInput.value.trim();
 
-
-        // 1. STRICT NUMBERS ONLY (blocks letters/symbols)
         if (!/^[0-9]+$/.test(value)) {
             alert("Contact number must contain numbers only (no letters or symbols).");
             contactInput.focus();
             return false;
         }
-
-
-        // 2. LENGTH VALIDATION
         if (contactType) {
-            if (contactType.value === "mobile") {
-                if (value.length !== 10) {
-                    alert("Cellphone number must be exactly 10 digits.");
-                    contactInput.focus();
-                    return false;
-                }
+            if (contactType.value === "mobile" && value.length !== 10) {
+                alert("Cellphone number must be exactly 10 digits.");
+                contactInput.focus();
+                return false;
             }
-
-
-            if (contactType.value === "landline") {
-                if (value.length !== 8) {
-                    alert("Telephone number must be exactly 8 digits.");
-                    contactInput.focus();
-                    return false;
-                }
+            if (contactType.value === "landline" && value.length !== 8) {
+                alert("Telephone number must be exactly 8 digits.");
+                contactInput.focus();
+                return false;
             }
         }
     }
-    // ===============================
-    // NAME VALIDATION (ON NEXT STEP)
-    // ===============================
     
-    // 1. Validate respondent names if the form is for "Someone Else"
+    // 6. Name Validation
     const formFor = card.querySelector('[name="form_for"]');
     if (formFor && formFor.value === "Someone Else") {
         const rLname = card.querySelector('[name="respondent_lname"]');
@@ -526,7 +490,6 @@ function isStepValid() {
         if (rFname && !validateNameField(rFname, "Respondent First Name", false)) return false;
     }
 
-    // 2. Validate full names
     const fLname = card.querySelector('[name="full_lname"]');
     const fFname = card.querySelector('[name="full_fname"]');
     const fMi = card.querySelector('[name="full_mi"]');
@@ -538,6 +501,30 @@ function isStepValid() {
         if (!/^[\p{L}\s]{1,2}$/u.test(fMi.value.trim())) {
             alert("Middle Initial must be 1–2 letters only.");
             fMi.focus();
+            return false;
+        }
+    }
+
+    // 7. Age Validation
+    const ageInput = card.querySelector('[name="age"]');
+    if (ageInput && ageInput.value !== '') {
+        const ageVal = parseInt(ageInput.value, 10);
+        if (isNaN(ageVal) || ageVal < 1 || ageVal > 120) {
+            alert("Please enter a valid age between 1 and 120.");
+            ageInput.focus();
+            return false;
+        }
+    }
+
+    // 8. FINAL CATCH-ALL: Native HTML5 Validation
+    // This now only triggers if required fields are completely blank, 
+    // ensuring the specific alerts above get priority.
+    var inputs = card.querySelectorAll("input, select, textarea");
+    for (let input of inputs) {
+        if (!input.checkValidity()) {
+            input.reportValidity(); 
+            alert("Please complete or correct the missing field before continuing.");
+            input.focus();
             return false;
         }
     }
@@ -681,48 +668,64 @@ function addRow(tbody, section, question, answer) {
 
 
 /* =====================================
-   STEP 7: BUILD SUMMARY TABLE
+      BUILD SUMMARY TABLE (STEP 7)
 ====================================== */
 function buildSummary() {
     var tbody = document.getElementById('summary-body');
     tbody.innerHTML = ''; // Clear previous entries
 
-    // Step 1: Profile (Core Identifiers)
+    // --- 1. Profile Details ---
+    addRow(tbody, 'Profile', 'Form Filled For', getVal('form_for'));
+    
+    // Add Respondent details if filled for someone else
     if (getVal('form_for') === 'Someone Else') {
         addRow(tbody, 'Profile', 'Relationship', getVal('relationship'));
-        addRow(tbody, 'Profile', 'Respondent Name', `${getVal('respondent_lname')}, ${getVal('respondent_fname')} ${getVal('respondent_mi')} ${getVal('respondent_suffix')}`);
+        
+        // Format Respondent Name (hiding empty M.I./Suffixes)
+        let resMi = getVal('respondent_mi') !== '—' ? getVal('respondent_mi') : '';
+        let resSuf = getVal('respondent_suffix') !== '—' ? getVal('respondent_suffix') : '';
+        let resName = `${getVal('respondent_fname')} ${resMi} ${getVal('respondent_lname')} ${resSuf}`.replace(/\s+/g, ' ').trim();
+        
+        addRow(tbody, 'Profile', 'Respondent Name', resName);
     }
-    addRow(
-        tbody,
-        'Profile',
-        'Name',
-        `${getVal('full_lname')}, ${getVal('full_fname')} ${getVal('full_mi')}`
-    );
-    addRow(tbody, 'Profile', 'Age', getVal('age'));
+
+    // Format Full Resident Name
+    let fullMi = getVal('full_mi') !== '—' ? getVal('full_mi') : '';
+    let fullSuf = getVal('full_suffix') !== '—' ? getVal('full_suffix') : '';
+    let residentName = `${getVal('full_fname')} ${fullMi} ${getVal('full_lname')} ${fullSuf}`.replace(/\s+/g, ' ').trim();
+
+    addRow(tbody, 'Profile', 'Resident Name', residentName);
+    addRow(tbody, 'Profile', 'Age & Sex', `${getVal('age')} / ${getVal('sex')}`);
+    addRow(tbody, 'Profile', 'Civil Status', getVal('civil_status'));
+    
+    // Full Address String
+    let addressStr = `${getVal('unit_no')} ${getVal('street')}, Brgy. ${getVal('barangay')}`;
+    addRow(tbody, 'Profile', 'Address', addressStr);
+    
     addRow(tbody, 'Profile', 'Contact Number', getVal('contact_number'));
 
-
-    // Step 2: Vaccination (Primary Status)
+    // --- 2. Health & Household Information ---
     addRow(tbody, 'Vaccination', 'COVID-19 Status', getVal('covid_vax_status'));
-
-
-    // Step 3: Symptoms (Core Symptoms)
+    
+    // Symptoms
     let symptomText = getCheckboxes('symptoms');
     if (getVal('symptoms_other_details') !== '—') {
         symptomText += ` (${getVal('symptoms_other_details')})`;
     }
     addRow(tbody, 'Symptoms', 'Reported Symptoms', symptomText);
+    
+    // Household Size (Crucial for virus spread monitoring)
+    addRow(tbody, 'Household', 'Members in Home', getVal('household_members'));
+    addRow(tbody, 'Household', 'Anyone Sick?', getVal('household_sick') === 'Yes' ? 'Yes' : 'No');
 
-
-    // Step 4: Conditions (Core Conditions)
+    // Chronic Conditions
     let chronicText = getCheckboxes('chronic');
     if (getVal('chronic_other_details') !== '—') {
         chronicText += ` (${getVal('chronic_other_details')})`;
     }
-    addRow(tbody, 'Chronic Conditions', 'Chronic Conditions', chronicText);
+    addRow(tbody, 'Conditions', 'Chronic Conditions', chronicText);
 
-
-    // Step 7: Emergency (Crucial for Health Forms)
+    // --- 3. Emergency Details ---
     addRow(tbody, 'Emergency', 'Contact Person', getVal('emergency_contact_name'));
     addRow(tbody, 'Emergency', 'Contact Number', getVal('emergency_contact_number'));
 }
@@ -1030,11 +1033,22 @@ function viewDatabase() {
 
     // 2. Setup the Base Rows and Headers
     const S = submissions;
-    const baseHeaders = ['#', 'For Who', 'Respondent Name', 'Relationship', 'Name', 'Age', 'Date'];
+    const baseHeaders = ['Action', '#', 'For Who', 'Respondent Name', 'Relationship', 'Name', 'Age', 'Date'];
    
     function baseRow(e) {
-        return `<td>${e.id}</td><td>${e.form_for}</td><td>${e.res_name}</td><td>${e.relationship}</td><td>${e.name}</td><td>${e.age}</td><td>${formatDate(e.date)}</td>`;
-    }
+    return `
+        <td style="text-align:center;">
+            <button type="button" class="delete-btn no-print" onclick="deleteSubmission(${e.id})" title="Delete Entry">❌</button>
+        </td>
+        <td>${e.id}</td>
+        <td>${e.form_for}</td>
+        <td>${e.res_name}</td>
+        <td>${e.relationship}</td>
+        <td>${e.name}</td>
+        <td>${e.age}</td>
+        <td>${formatDate(e.date)}</td>
+    `;
+}
 
 
     // 3. Section Generator Helper
@@ -1139,6 +1153,21 @@ function viewDatabase() {
 
     // 6. Inject into the DOM
     document.getElementById('database-container').innerHTML = navHTML + sectionsHTML.join('');
+}
+
+/* =====================================
+           DELETE SUBMISSION
+====================================== */
+function deleteSubmission(id) {
+    if (confirm("Are you sure you want to delete this submission? This action cannot be undone.")) {
+        // Find the index of the submission by its ID
+        const index = submissions.findIndex(s => s.id === id);
+        if (index > -1) {
+            submissions.splice(index, 1); // Remove it from the array
+            viewDatabase(); // Re-render the database tables
+            document.getElementById('total-count').innerText = submissions.length; // Update the counter
+        }
+    }
 }
 
 /* =====================================

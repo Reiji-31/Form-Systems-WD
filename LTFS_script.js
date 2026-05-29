@@ -388,12 +388,28 @@ function enforceAge() {
 
 function enforceVisitDate() {
   const el = document.getElementById('v-visit-date');
-  const today = new Date().toISOString().split('T')[0];
-  el.setAttribute('max', today);
+
+  // Get today's date formatted as YYYY-MM-DD
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+
+  // Calculate the date exactly 10 years ago formatted as YYYY-MM-DD
+  const past = new Date();
+  past.setFullYear(today.getFullYear() - 10);
+  const pastStr = past.toISOString().split('T')[0];
+
+  // Restrict the calendar UI bounds
+  el.setAttribute('max', todayStr);
+  el.setAttribute('min', pastStr);
+
   el.addEventListener('change', () => {
-    if (el.value > today) {
-      el.value = today;
+    if (el.value > todayStr) {
+      el.value = todayStr;
       showToast('Visit date cannot be in the future.');
+    } else if (el.value < pastStr && el.value !== '') {
+      // Prevent manually typed dates older than 10 years
+      el.value = pastStr;
+      showToast('Visit date cannot be more than 10 years ago.');
     }
   });
 }
@@ -430,16 +446,24 @@ function setupExclusiveCheckboxes(groupName, exclusiveValue) {
 function validateStep(step) {
   switch (step) {
     case 1: {
+      const visitDate = document.getElementById('v-visit-date').value;
+      if (!visitDate) {
+        showToast('Please select your Visit Date before continuing.');
+        return false;
+      }
+
       const nat = document.getElementById('v-nationality').value;
       if (!nat) {
         showToast('Please select your Nationality before continuing.');
         return false;
       }
+      
       const visitType = document.querySelector('input[name="visit"]:checked');
       if (!visitType) {
         showToast('Please select your Visit Type before continuing.');
         return false;
       }
+
       const ageEl = document.getElementById('v-age');
       if (ageEl.value !== '') {
         const v = parseInt(ageEl.value, 10);
@@ -840,17 +864,22 @@ function tableSection(id, num, title, headers, rows) {
 
 
 function baseRow(e) {
-  return `<td>${e.no}</td>
-          <td>${e.fullName}</td>
-          <td>${e.age}</td>
-          <td>${e.nationality}</td>
-          <td>${e.visit}</td>
-          <td>${e.visitDate}</td>
-          <td>${formatDate(e.date)}</td>`;
+  return `
+      <td style="text-align:center;">
+          <button type="button" class="delete-btn" onclick="deleteSubmission(${e.no})" title="Delete Entry">❌</button>
+      </td>
+      <td>${e.no}</td>
+      <td>${e.fullName}</td>
+      <td>${e.age}</td>
+      <td>${e.nationality}</td>
+      <td>${e.visit}</td>
+      <td>${e.visitDate}</td>
+      <td>${formatDate(e.date)}</td>
+  `;
 }
 
 
-const baseHeaders = ['#', 'Full Name', 'Age', 'Nationality', 'Visit Type', 'Visit Date', 'Submitted'];
+const baseHeaders = ['Action', '#', 'Full Name', 'Age', 'Nationality', 'Visit Type', 'Visit Date', 'Submitted'];
 
 
 function renderResults() {
@@ -982,6 +1011,19 @@ function renderResults() {
     }, { rootMargin: '-30% 0px -60% 0px' });
     sectionEls.forEach(s => observer.observe(s));
   }, 100);
+}
+
+/* ══════════════════════════════════════
+           DELETE SUBMISSION
+══════════════════════════════════════ */
+function deleteSubmission(no) {
+    if (confirm("Are you sure you want to delete this visitor feedback? This action cannot be undone.")) {
+        const index = submissions.findIndex(s => s.no === no);
+        if (index > -1) {
+            submissions.splice(index, 1);
+            renderResults(); // Re-render the tables
+        }
+    }
 }
 
 
