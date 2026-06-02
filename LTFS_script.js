@@ -445,7 +445,7 @@ function setupExclusiveCheckboxes(groupName, exclusiveValue) {
 
 function validateStep(step) {
   switch (step) {
-    case 1: {g
+    case 1: {
       const ageEl = document.getElementById('v-age');
       if (!ageEl.value) {
         showToast('Please enter your age (1-120).');
