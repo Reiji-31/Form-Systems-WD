@@ -445,7 +445,21 @@ function setupExclusiveCheckboxes(groupName, exclusiveValue) {
 
 function validateStep(step) {
   switch (step) {
-    case 1: {
+    case 1: {g
+      const ageEl = document.getElementById('v-age');
+      if (!ageEl.value) {
+        showToast('Please enter your age (1-120).');
+        return false;
+      }
+      if (ageEl.value !== '') {
+        const v = parseInt(ageEl.value, 10);
+        if (isNaN(v) || v < 1 || v > 120) {
+          showToast('Please enter a valid age (1–120).');
+          ageEl.focus();
+          return false;
+        }
+      }
+
       const visitDate = document.getElementById('v-visit-date').value;
       if (!visitDate) {
         showToast('Please select your Visit Date before continuing.');
@@ -464,15 +478,6 @@ function validateStep(step) {
         return false;
       }
 
-      const ageEl = document.getElementById('v-age');
-      if (ageEl.value !== '') {
-        const v = parseInt(ageEl.value, 10);
-        if (isNaN(v) || v < 1 || v > 120) {
-          showToast('Please enter a valid age (1–120), or leave it blank.');
-          ageEl.focus();
-          return false;
-        }
-      }
       return true;
     }
 
@@ -757,7 +762,7 @@ function submitSurvey() {
 
 
   const entry = {
-    no:          submissions.length + 1,
+    no:          Date.now(), // Use a unique timestamp so IDs never duplicate
     date:        new Date(),
     fullName,
     age:         getVal('v-age'),
@@ -863,13 +868,12 @@ function tableSection(id, num, title, headers, rows) {
 }
 
 
-function baseRow(e) {
+function baseRow(e, index) {
   return `
       <td style="text-align:center;">
           <button type="button" class="delete-btn" onclick="deleteSubmission(${e.no})" title="Delete Entry">❌</button>
       </td>
-      <td>${e.no}</td>
-      <td>${e.fullName}</td>
+      <td>${index + 1}</td> <td>${e.fullName}</td>
       <td>${e.age}</td>
       <td>${e.nationality}</td>
       <td>${e.visit}</td>
@@ -889,12 +893,12 @@ function renderResults() {
   const sections = [
     tableSection('sec-profile', 1, 'Visitor Profile',
       [...baseHeaders, 'Address'],
-      S.map(e => baseRow(e) + `<td>${e.fullAddress}</td>`)),
+      S.map((e, index) => baseRow(e, index) + `<td>${e.fullAddress}</td>`)),
 
 
     tableSection('sec-service', 2, 'Staff & Service',
       [...baseHeaders, 'Staff Helpfulness', 'Friendliness', 'Ticket Process'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td><span class="star-display">${starsHTML(e.help)}</span></td>` +
         `<td><span class="star-display">${starsHTML(e.friend)}</span></td>` +
         `<td><span class="star-display">${starsHTML(e.ticket)}</span></td>`)),
@@ -902,7 +906,7 @@ function renderResults() {
 
     tableSection('sec-clean', 3, 'Cleanliness & Sanitation',
       [...baseHeaders, 'Overall Cleanliness', 'Restroom', 'Concerns'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td><span class="star-display">${starsHTML(e.clean)}</span></td>` +
         `<td><span class="star-display">${starsHTML(e.rest)}</span></td>` +
         `<td>${e.clean_concern}</td>`)),
@@ -910,7 +914,7 @@ function renderResults() {
 
     tableSection('sec-infra', 4, 'Facilities & Infrastructure',
       [...baseHeaders, 'Pathways', 'Rest Areas', 'Amenities Available', 'Needs Improvement'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td><span class="star-display">${starsHTML(e.path)}</span></td>` +
         `<td><span class="star-display">${starsHTML(e.seat)}</span></td>` +
         `<td>${e.amenity}</td>` +
@@ -919,7 +923,7 @@ function renderResults() {
 
     tableSection('sec-habitat', 5, 'Animal Habitats & Welfare',
       [...baseHeaders, 'Enclosure Quality', 'Viewing Experience', 'Welfare Impression'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td><span class="star-display">${starsHTML(e.enc)}</span></td>` +
         `<td><span class="star-display">${starsHTML(e.view)}</span></td>` +
         `<td>${e.welfare}</td>`)),
@@ -927,7 +931,7 @@ function renderResults() {
 
     tableSection('sec-access', 6, 'Accessibility & Inclusivity',
       [...baseHeaders, 'Navigation Ease', 'Accessible Features', 'Visited With'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td><span class="star-display">${starsHTML(e.nav)}</span></td>` +
         `<td>${e.access}</td>` +
         `<td>${e.visitwith}</td>`)),
@@ -935,7 +939,7 @@ function renderResults() {
 
     tableSection('sec-edu', 7, 'Education & Conservation',
       [...baseHeaders, 'Info Boards', 'Edu Programs', 'Conservation Awareness'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td><span class="star-display">${starsHTML(e.info)}</span></td>` +
         `<td><span class="star-display">${starsHTML(e.edu)}</span></td>` +
         `<td>${e.aware}</td>`)),
@@ -943,7 +947,7 @@ function renderResults() {
 
     tableSection('sec-price', 8, 'Pricing & Value',
       [...baseHeaders, 'Value for Money', 'Food & Souvenir Prices', 'Recommend (NPS)'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td><span class="star-display">${starsHTML(e.price)}</span></td>` +
         `<td>${e.food_price}</td>` +
         `<td>${e.nps}</td>`)),
@@ -951,11 +955,10 @@ function renderResults() {
 
     tableSection('sec-comments', 9, 'Final Comments',
       [...baseHeaders, 'Feedback', 'Visit Again?'],
-      S.map(e => baseRow(e) +
+      S.map((e, index) => baseRow(e, index) +
         `<td>${e.comment}</td>` +
         `<td>${e.again}</td>`)),
   ];
-
 
   const navLinks = [
     ['sec-profile',  'Profile'],

@@ -960,7 +960,7 @@ async function finalSubmit() {
 
     // 1. Gather EVERY piece of data for the detailed database
     const entry = {
-        id: submissions.length + 1,
+        id: Date.now(), // Use a unique timestamp so IDs never duplicate
         date: new Date(),
        
         // Basic Info
@@ -1035,12 +1035,12 @@ function viewDatabase() {
     const S = submissions;
     const baseHeaders = ['Action', '#', 'For Who', 'Respondent Name', 'Relationship', 'Name', 'Age', 'Date'];
    
-    function baseRow(e) {
+    function baseRow(e, index) {
     return `
         <td style="text-align:center;">
             <button type="button" class="delete-btn no-print" onclick="deleteSubmission(${e.id})" title="Delete Entry">❌</button>
         </td>
-        <td>${e.id}</td>
+        <td>${index + 1}</td>
         <td>${e.form_for}</td>
         <td>${e.res_name}</td>
         <td>${e.relationship}</td>
@@ -1078,55 +1078,43 @@ function viewDatabase() {
     const sectionsHTML = [
         tableSection('sec-profile', 1, 'Full Profile Details',
             [...baseHeaders, 'Sex', 'Address', 'Contact', 'Civil Status'],
-            S.map(e => baseRow(e) + `<td>${e.sex}</td><td>${e.address}</td><td>${e.contact}</td><td>${e.civil}</td>`)),
-
-
-
+            S.map((e, index) => baseRow(e, index) + `<td>${e.sex}</td><td>${e.address}</td><td>${e.contact}</td><td>${e.civil}</td>`)),
 
         tableSection('sec-vax', 2, 'Vaccination Records',
             [...baseHeaders, 'COVID Status', 'Annual Vaccines', 'Vax Document', 'Uploaded File'],
-            S.map(e => {
+            S.map((e, index) => {
                 // If a file was uploaded, create a button. Otherwise, show "None".
                 const fileBtn = e.vax_file ? `
                     <button type="button" class="view-img-btn no-print" onclick="openDocumentModal(${e.id})">View File</button>
                     <span class="print-only-text">✅ Attached</span>
                     ` : 'None';
-                return baseRow(e) + `<td>${e.vax_status}</td><td>${e.annual_vax}</td><td>${e.vax_doc}</td><td style="text-align:center;">${fileBtn}</td>`;
+                return baseRow(e, index) + `<td>${e.vax_status}</td><td>${e.annual_vax}</td><td>${e.vax_doc}</td><td style="text-align:center;">${fileBtn}</td>`;
             })),
 
-
-
+            
         tableSection('sec-symptoms', 3, 'Symptoms & Household',
             [...baseHeaders, 'Symptoms', 'Duration', 'Meds Taken', 'Household Size', 'Household Sick Status'],
-            S.map(e => baseRow(e) + `<td>${e.symptoms}</td><td>${e.duration}</td><td>${e.meds_taken}</td><td>${e.household_size}</td><td>${e.household_sick}</td>`)),
-
-
+            S.map((e, index) => baseRow(e, index) + `<td>${e.symptoms}</td><td>${e.duration}</td><td>${e.meds_taken}</td><td>${e.household_size}</td><td>${e.household_sick}</td>`)),
 
 
         tableSection('sec-chronic', 4, 'Chronic & Maintenance',
             [...baseHeaders, 'Diagnosed Conditions', 'Maintenance Meds Status'],
-            S.map(e => baseRow(e) + `<td>${e.chronic}</td><td>${e.maintenance}</td>`)),
-
-
+            S.map((e, index) => baseRow(e, index) + `<td>${e.chronic}</td><td>${e.maintenance}</td>`)),
 
 
         tableSection('sec-other', 5, 'Maternal & Geriatric',
             [...baseHeaders, 'Pregnancy Status', 'Prenatal', 'Danger Signs', 'Geriatric Issues', 'Physical Assist', 'Senior ID'],
-            S.map(e => baseRow(e) + `<td>${e.pregnancy}</td><td>${e.prenatal}</td><td>${e.danger_signs}</td><td>${e.geriatric}</td><td>${e.physical}</td><td>${e.senior_id}</td>`)),
-
-
+            S.map((e, index) => baseRow(e, index) + `<td>${e.pregnancy}</td><td>${e.prenatal}</td><td>${e.danger_signs}</td><td>${e.geriatric}</td><td>${e.physical}</td><td>${e.senior_id}</td>`)),
 
 
         tableSection('sec-mental', 6, 'Mental Health',
             [...baseHeaders, 'Diagnosis', 'Maintenance Meds', 'Psych Support'],
-            S.map(e => baseRow(e) + `<td>${e.mental_diag}</td><td>${e.mental_meds}</td><td>${e.psych_support}</td>`)),
-
-
+            S.map((e, index) => baseRow(e, index) + `<td>${e.mental_diag}</td><td>${e.mental_meds}</td><td>${e.psych_support}</td>`)),
 
 
         tableSection('sec-emergency', 7, 'Notes & Emergency',
             [...baseHeaders, 'Additional Notes', 'Emergency Name', 'Emergency Number'],
-            S.map(e => baseRow(e) + `<td>${e.notes}</td><td>${e.emergency_name}</td><td>${e.emergency_num}</td>`)),
+            S.map((e, index) => baseRow(e, index) + `<td>${e.notes}</td><td>${e.emergency_name}</td><td>${e.emergency_num}</td>`)),
     ];
 
 
